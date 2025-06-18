@@ -96,8 +96,17 @@ const Hero = () => {
       id="home"
       ref={heroRef}
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
+      {/* Base background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 z-0"></div>
+      
+      {/* Background radial gradient with color-dodge blend mode */}
+      <div 
+        className="absolute inset-0 z-5"
+        style={{
+          background: 'radial-gradient(79.06% 79.06% at 50% 50%, rgba(197, 214, 228, 0.5) 0%, rgba(1, 4, 8, 0.5) 100%)',
+          mixBlendMode: 'color-dodge'
+        }}
+      ></div>
       
       {/* Top section with logo */}
       <div className="relative z-30 text-center px-4 max-w-4xl mx-auto pt-16 pb-8">
