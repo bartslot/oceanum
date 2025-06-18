@@ -102,16 +102,8 @@ const Hero = () => {
   // Apply momentum after drag ends
   const applyMomentum = () => {
     if (Math.abs(velocity) < 0.1) {
-      // Resume automatic rotation if no significant momentum
-      if (!isHovered && rotationTween.current) {
-        rotationTween.current.kill();
-        rotationTween.current = gsap.to(wheelRef.current, {
-          rotation: currentRotation + 360,
-          duration: 120,
-          ease: Linear.easeNone,
-          repeat: -1
-        });
-      }
+      // Resume automatic rotation from current position
+      resumeAutomaticRotation();
       return;
     }
     
@@ -122,14 +114,15 @@ const Hero = () => {
     
     // Calculate momentum duration based on velocity (heavier = longer momentum)
     const momentumDuration = Math.min(Math.abs(velocity) * 3, 8); // Max 8 seconds
-    const finalRotation = currentRotation + (velocity * momentumDuration * 60); // Heavy momentum
+    const momentumRotation = velocity * momentumDuration * 60; // Heavy momentum
     
     momentumTween.current = gsap.to({}, {
       duration: momentumDuration,
       ease: "power3.out", // Heavy deceleration
       onUpdate: function() {
         const progress = this.progress();
-        const currentMomentumRotation = currentRotation + (velocity * momentumDuration * 60 * progress * (1 - progress * 0.8));
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+        const currentMomentumRotation = currentRotation + (momentumRotation * easeProgress);
         
         setCurrentRotation(currentMomentumRotation);
         gsap.set(wheelRef.current, {
@@ -138,20 +131,29 @@ const Hero = () => {
       },
       onComplete: () => {
         setVelocity(0);
-        // Resume automatic rotation if not hovered
-        if (!isHovered) {
-          if (rotationTween.current) {
-            rotationTween.current.kill();
-            rotationTween.current = gsap.to(wheelRef.current, {
-              rotation: currentRotation + 360,
-              duration: 120,
-              ease: Linear.easeNone,
-              repeat: -1
-            });
-          }
-        }
+        // Resume automatic rotation from final position
+        resumeAutomaticRotation();
       }
     });
+  };
+
+  // Resume automatic rotation from current position
+  const resumeAutomaticRotation = () => {
+    if (!isHovered && rotationTween.current) {
+      rotationTween.current.kill();
+      
+      // Start new rotation from current position
+      rotationTween.current = gsap.to(wheelRef.current, {
+        rotation: currentRotation + 360,
+        duration: 120,
+        ease: Linear.easeNone,
+        repeat: -1,
+        onUpdate: function() {
+          // Keep track of the current rotation during automatic rotation
+          setCurrentRotation(gsap.getProperty(wheelRef.current, "rotation") as number);
+        }
+      });
+    }
   };
 
   // Drag interaction handlers
@@ -163,9 +165,12 @@ const Hero = () => {
     setLastDragTime(Date.now());
     setVelocity(0);
     
-    // Stop momentum but keep automatic rotation running
+    // Stop both momentum and automatic rotation
     if (momentumTween.current) {
       momentumTween.current.kill();
+    }
+    if (rotationTween.current) {
+      rotationTween.current.kill();
     }
     
     // Change cursor to grabbing
@@ -226,6 +231,9 @@ const Hero = () => {
     
     if (momentumTween.current) {
       momentumTween.current.kill();
+    }
+    if (rotationTween.current) {
+      rotationTween.current.kill();
     }
     
     e.preventDefault();
