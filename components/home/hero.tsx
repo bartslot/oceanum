@@ -179,11 +179,7 @@ const Hero = () => {
             return (
               <div
                 key={index}
-                className={`wheel-card absolute rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out ${
-                  isHovered 
-                    ? 'border-2 border-white/80 shadow-2xl' 
-                    : 'border-0 border-transparent'
-                }`}
+                className="wheel-card absolute rounded-2xl overflow-hidden transition-all duration-500 ease-out"
                 style={{
                   width: '100px', // Smaller images (was 120px)
                   height: '100px', // Smaller images (was 120px)
@@ -191,17 +187,18 @@ const Hero = () => {
                   top: `calc(50% + ${y}px - 50px)`, // Adjusted for new size
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform',
-                  boxShadow: isHovered 
-                    ? '0 0 30px rgba(255, 255, 255, 0.3), 0 10px 25px rgba(0, 0, 0, 0.3)' 
-                    : '0 4px 15px rgba(0, 0, 0, 0.2)'
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  // Individual card hover effect
+                  // Individual card hover effect - 120% scale with white shadow
                   gsap.to(e.currentTarget, {
-                    scale: 1.1,
+                    scale: 1.2,
                     duration: 0.3,
                     ease: "power2.out"
                   });
+                  
+                  // Add white shadow effect
+                  e.currentTarget.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(0, 0, 0, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   // Reset individual card
@@ -210,6 +207,9 @@ const Hero = () => {
                     duration: 0.3,
                     ease: "power2.out"
                   });
+                  
+                  // Remove white shadow effect
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
                 }}
               >
                 <img
@@ -231,17 +231,6 @@ const Hero = () => {
                 
                 {/* Subtle overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20"></div>
-                
-                {/* Hover glow effect */}
-                {isHovered && (
-                  <div 
-                    className="absolute inset-0 rounded-2xl"
-                    style={{
-                      background: 'linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
-                      boxShadow: 'inset 0 0 20px rgba(255,255,255,0.1)'
-                    }}
-                  ></div>
-                )}
               </div>
             );
           })}
@@ -271,7 +260,7 @@ const Hero = () => {
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
             History is taught here
           </h3>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: '#7C9DB4' }}>
             Our platform is currently in beta and invite-only.<br />
             Request an invite now to receive a link to<br />
             create your account.
