@@ -5,12 +5,12 @@ import Button from "../common/button";
 const Hero = () => {
   const heroRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const imagesRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [radius, setRadius] = useState(600); // Default radius for SSR
+  const [radius, setRadius] = useState(400); // Default radius for SSR
 
   useEffect(() => {
     // Update radius based on window size
     const updateRadius = () => {
-      setRadius(Math.min(window.innerWidth * 0.6, 600));
+      setRadius(Math.min(window.innerWidth * 0.4, 400));
     };
 
     // Set initial radius
@@ -87,33 +87,37 @@ const Hero = () => {
     "https://images.pexels.com/photos/1134169/pexels-photo-1134169.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient sculpture
     "https://images.pexels.com/photos/1797165/pexels-photo-1797165.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval castle
     "https://images.pexels.com/photos/1134170/pexels-photo-1134170.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient city
-    "https://images.pexels.com/photos/1797166/pexels-photo-1797166.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical artifact
-    "https://images.pexels.com/photos/1134171/pexels-photo-1134171.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
-    "https://images.pexels.com/photos/1797167/pexels-photo-1797167.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
-    "https://images.pexels.com/photos/1134172/pexels-photo-1134172.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1"  // Ancient ruins
   ];
 
   return (
     <section 
-      className="w-full min-h-screen relative select-none flex items-center justify-center"
+      className="w-full min-h-screen relative select-none flex items-center justify-center overflow-hidden"
       id="home"
       ref={heroRef}
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Large arch of historical images - positioned to show full arch */}
+      {/* Large arch of historical images */}
       <div 
         ref={imagesRef}
-        className="absolute inset-0 flex items-end justify-center"
-        style={{ 
-          paddingBottom: '10vh', // Push the center of the arch up so bottom is visible
-        }}
+        className="absolute inset-0 flex items-center justify-center"
       >
-        <div className="relative" style={{ width: `${radius * 2}px`, height: `${radius}px` }}>
+        <div 
+          className="relative"
+          style={{ 
+            width: `${radius * 2}px`, 
+            height: `${radius * 2}px`,
+            transformOrigin: 'center center'
+          }}
+        >
           {historicalImages.map((image, index) => {
-            // Create a larger arch - 180 degrees (half circle)
-            const angle = (index * (180 / (historicalImages.length - 1))) - 90; // -90 to 90 degrees
+            // Create evenly spaced arch - 180 degrees (half circle) from left to right
+            const totalImages = historicalImages.length;
+            const angleStep = 180 / (totalImages - 1); // Divide 180 degrees evenly
+            const angle = (index * angleStep) - 90; // Start from -90° (left) to 90° (right)
+            
+            // Calculate position on the circle
             const x = Math.cos((angle * Math.PI) / 180) * radius;
             const y = Math.sin((angle * Math.PI) / 180) * radius;
             
@@ -123,14 +127,18 @@ const Hero = () => {
                 className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg"
                 style={{
                   left: `calc(50% + ${x}px - 2rem)`,
-                  top: `calc(100% + ${y}px - 2rem)`, // Position from bottom of container
-                  transform: `rotate(${-angle}deg)` // Counter-rotate to keep images upright
+                  top: `calc(50% + ${y}px - 2rem)`,
+                  transform: `rotate(${angle + 90}deg)`, // Rotate images to follow the arch tangent
+                  transformOrigin: 'center center'
                 }}
               >
                 <img
                   src={image}
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover"
+                  style={{
+                    transform: `rotate(${-(angle + 90)}deg)` // Counter-rotate the image content to keep it upright
+                  }}
                   onError={(e) => {
                     // Fallback to a placeholder if image fails to load
                     e.currentTarget.src = `https://via.placeholder.com/200x200/4A5568/FFFFFF?text=History+${index + 1}`;
@@ -142,11 +150,11 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Foreground gradient mask - black at bottom 10%, transparent above */}
+      {/* Foreground gradient mask - creates the arch effect by hiding bottom portion */}
       <div 
         className="absolute inset-0 pointer-events-none z-20"
         style={{
-          background: 'linear-gradient(to top, rgba(30, 58, 138, 1) 0%, rgba(30, 58, 138, 0.8) 5%, transparent 10%)'
+          background: 'linear-gradient(to top, rgba(30, 58, 138, 1) 0%, rgba(30, 58, 138, 0.8) 8%, transparent 15%)'
         }}
       ></div>
 
