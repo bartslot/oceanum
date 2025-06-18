@@ -159,7 +159,7 @@ const Hero = () => {
             return (
               <div
                 key={index}
-                className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm"
+                className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm top-[50vh]"
                 style={{
                   width: '120px',
                   height: '120px',
