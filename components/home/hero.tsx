@@ -130,8 +130,8 @@ const Hero = () => {
           ref={wheelRef}
           className="relative wheel-container"
           style={{
-            width: '600px',
-            height: '600px'
+            width: '1200px',
+            height: '1200px'
           }}
         >
           {historicalImages.map((image, index) => {
