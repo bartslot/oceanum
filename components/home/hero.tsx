@@ -48,19 +48,19 @@ const Hero = () => {
         ease: "power2.out"
       }, "-=0.3");
 
-    // Animate arch images
+    // Animate circle images
     const images = imagesRef.current.querySelectorAll(".history-image");
     images.forEach((image, index) => {
       gsap.from(image, {
         opacity: 0,
         scale: 0,
         duration: 0.6,
-        delay: 0.5 + (index * 0.1),
+        delay: 0.5 + (index * 0.05),
         ease: "back.out(1.7)"
       });
     });
 
-    // Continuous rotation animation for the image arch
+    // Continuous rotation animation for the image circle
     gsap.to(imagesRef.current, {
       rotation: 360,
       duration: 120,
@@ -87,6 +87,18 @@ const Hero = () => {
     "https://images.pexels.com/photos/1134169/pexels-photo-1134169.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient sculpture
     "https://images.pexels.com/photos/1797165/pexels-photo-1797165.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval castle
     "https://images.pexels.com/photos/1134170/pexels-photo-1134170.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient city
+    "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical fortress
+    "https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient columns
+    "https://images.pexels.com/photos/2166557/pexels-photo-2166557.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman ruins
+    "https://images.pexels.com/photos/2166558/pexels-photo-2166558.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient amphitheater
+    "https://images.pexels.com/photos/2166560/pexels-photo-2166560.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical monument
+    "https://images.pexels.com/photos/2166561/pexels-photo-2166561.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient statue
+    "https://images.pexels.com/photos/2166562/pexels-photo-2166562.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval church
+    "https://images.pexels.com/photos/2166563/pexels-photo-2166563.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient pottery
+    "https://images.pexels.com/photos/2166564/pexels-photo-2166564.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical artifact
+    "https://images.pexels.com/photos/1166645/pexels-photo-1166645.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
+    "https://images.pexels.com/photos/1166646/pexels-photo-1166646.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
+    "https://images.pexels.com/photos/1166647/pexels-photo-1166647.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient ruins
   ];
 
   return (
@@ -98,7 +110,7 @@ const Hero = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Large arch of historical images */}
+      {/* Full circle of historical images */}
       <div 
         ref={imagesRef}
         className="absolute inset-0 flex items-center justify-center"
@@ -112,14 +124,17 @@ const Hero = () => {
           }}
         >
           {historicalImages.map((image, index) => {
-            // Create evenly spaced arch - 180 degrees (half circle) from left to right
+            // Create full circle - 360 degrees evenly distributed
             const totalImages = historicalImages.length;
-            const angleStep = 180 / (totalImages - 1); // Divide 180 degrees evenly
-            const angle = (index * angleStep) - 90; // Start from -90° (left) to 90° (right)
+            const angleStep = 360 / totalImages; // Divide 360 degrees evenly
+            const angle = index * angleStep; // Start from 0° and go around
             
             // Calculate position on the circle
             const x = Math.cos((angle * Math.PI) / 180) * radius;
             const y = Math.sin((angle * Math.PI) / 180) * radius;
+            
+            // Add slight random rotation to each image for variety
+            const imageRotation = (Math.random() - 0.5) * 30; // Random rotation between -15° and +15°
             
             return (
               <div
@@ -128,7 +143,7 @@ const Hero = () => {
                 style={{
                   left: `calc(50% + ${x}px - 2rem)`,
                   top: `calc(50% + ${y}px - 2rem)`,
-                  transform: `rotate(${angle + 90}deg)`, // Rotate images to follow the arch tangent
+                  transform: `rotate(${imageRotation}deg)`, // Apply slight rotation to the container
                   transformOrigin: 'center center'
                 }}
               >
@@ -136,9 +151,6 @@ const Hero = () => {
                   src={image}
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover"
-                  style={{
-                    transform: `rotate(${-(angle + 90)}deg)` // Counter-rotate the image content to keep it upright
-                  }}
                   onError={(e) => {
                     // Fallback to a placeholder if image fails to load
                     e.currentTarget.src = `https://via.placeholder.com/200x200/4A5568/FFFFFF?text=History+${index + 1}`;
@@ -150,7 +162,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Foreground gradient mask - creates the arch effect by hiding bottom portion */}
+      {/* Foreground gradient mask - creates depth by fading bottom portion */}
       <div 
         className="absolute inset-0 pointer-events-none z-20"
         style={{
