@@ -1,12 +1,24 @@
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { gsap, Linear } from "gsap";
 import Button from "../common/button";
 
 const Hero = () => {
   const heroRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const imagesRef: MutableRefObject<HTMLDivElement> = useRef(null);
+  const [radius, setRadius] = useState(600); // Default radius for SSR
 
   useEffect(() => {
+    // Update radius based on window size
+    const updateRadius = () => {
+      setRadius(Math.min(window.innerWidth, 600));
+    };
+
+    // Set initial radius
+    updateRadius();
+
+    // Add resize listener
+    window.addEventListener('resize', updateRadius);
+
     const timeline = gsap.timeline();
     
     // Animate title
@@ -56,6 +68,10 @@ const Hero = () => {
       repeat: -1
     });
 
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateRadius);
+    };
   }, []);
 
   const historicalImages = [
@@ -96,7 +112,6 @@ const Hero = () => {
           {historicalImages.map((image, index) => {
             // Create a larger arch - 180 degrees (half circle)
             const angle = (index * (180 / (historicalImages.length - 1))) - 90; // -90 to 90 degrees
-            const radius = Math.min(window?.innerWidth || 1200, 600); // Responsive radius
             const x = Math.cos((angle * Math.PI) / 180) * radius;
             const y = Math.sin((angle * Math.PI) / 180) * radius;
             
