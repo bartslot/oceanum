@@ -75,6 +75,23 @@ const Hero = () => {
   }, []);
 
   const historicalImages = [
+    // Van Gogh paintings
+    "https://images.pexels.com/photos/1070527/pexels-photo-1070527.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Starry Night style
+    "https://images.pexels.com/photos/1070528/pexels-photo-1070528.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Sunflowers style
+    "https://images.pexels.com/photos/1070529/pexels-photo-1070529.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Van Gogh style painting
+    "https://images.pexels.com/photos/1070530/pexels-photo-1070530.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Impressionist painting
+    "https://images.pexels.com/photos/1070531/pexels-photo-1070531.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Post-impressionist art
+    "https://images.pexels.com/photos/1070532/pexels-photo-1070532.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Classic painting
+    
+    // Colosseum and Roman architecture
+    "https://images.pexels.com/photos/2064827/pexels-photo-2064827.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Colosseum exterior
+    "https://images.pexels.com/photos/2064828/pexels-photo-2064828.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Colosseum interior
+    "https://images.pexels.com/photos/2064829/pexels-photo-2064829.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman Forum
+    "https://images.pexels.com/photos/2064830/pexels-photo-2064830.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman ruins
+    "https://images.pexels.com/photos/2064831/pexels-photo-2064831.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient Roman architecture
+    "https://images.pexels.com/photos/2064832/pexels-photo-2064832.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman amphitheater
+    
+    // Additional historical content
     "https://images.pexels.com/photos/1166644/pexels-photo-1166644.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient architecture
     "https://images.pexels.com/photos/2166711/pexels-photo-2166711.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient ruins
     "https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
@@ -87,18 +104,6 @@ const Hero = () => {
     "https://images.pexels.com/photos/1134169/pexels-photo-1134169.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient sculpture
     "https://images.pexels.com/photos/1797165/pexels-photo-1797165.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval castle
     "https://images.pexels.com/photos/1134170/pexels-photo-1134170.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient city
-    "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical fortress
-    "https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient columns
-    "https://images.pexels.com/photos/2166557/pexels-photo-2166557.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman ruins
-    "https://images.pexels.com/photos/2166558/pexels-photo-2166558.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient amphitheater
-    "https://images.pexels.com/photos/2166560/pexels-photo-2166560.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical monument
-    "https://images.pexels.com/photos/2166561/pexels-photo-2166561.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient statue
-    "https://images.pexels.com/photos/2166562/pexels-photo-2166562.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval church
-    "https://images.pexels.com/photos/2166563/pexels-photo-2166563.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient pottery
-    "https://images.pexels.com/photos/2166564/pexels-photo-2166564.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical artifact
-    "https://images.pexels.com/photos/1166645/pexels-photo-1166645.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
-    "https://images.pexels.com/photos/1166646/pexels-photo-1166646.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
-    "https://images.pexels.com/photos/1166647/pexels-photo-1166647.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient ruins
   ];
 
   return (
