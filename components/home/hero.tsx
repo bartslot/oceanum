@@ -62,15 +62,6 @@ const Hero = () => {
       repeat: -1
     });
 
-    // Counter-rotate the images to keep them upright
-    // This ensures images stay oriented correctly as the wheel rotates
-    gsap.to(cards, {
-      rotation: -360,
-      duration: 120,
-      ease: Linear.easeNone,
-      repeat: -1
-    });
-
   }, []);
 
   // Historical images - 22 images for a full wheel
@@ -145,6 +136,11 @@ const Hero = () => {
             const x = Math.cos(radian) * radius;
             const y = Math.sin(radian) * radius;
             
+            // Calculate individual rotation based on position
+            // Top = 0°, Right = 90°, Bottom = 180°, Left = -90° (or 270°)
+            // Adjust angle so top is 0° (subtract 90° since 0° starts at right in CSS)
+            const imageRotation = angle - 90;
+            
             return (
               <div
                 key={index}
@@ -154,7 +150,7 @@ const Hero = () => {
                   height: '80px',
                   left: `calc(50% + ${x}px - 40px)`,
                   top: `calc(50% + ${y}px - 40px)`,
-                  transformOrigin: `${-x}px ${-y}px`, // Set transform origin to center of wheel
+                  transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform'
                 }}
               >
