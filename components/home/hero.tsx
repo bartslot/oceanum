@@ -138,7 +138,7 @@ const Hero = () => {
             // Calculate position for perfect circle
             const totalImages = historicalImages.length;
             const angle = (index * 360) / totalImages;
-            const radius = 250; // Distance from center
+            const radius = 600; // Distance from center
             
             // Convert angle to radians and calculate x, y positions
             const radian = (angle * Math.PI) / 180;
