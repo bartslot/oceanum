@@ -161,10 +161,10 @@ const Hero = () => {
                 key={index}
                 className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm"
                 style={{
-                  width: '80px',
-                  height: '80px',
-                  left: `calc(50% + ${x}px - 40px)`,
-                  top: `calc(50% + ${y}px - 40px)`,
+                  width: '120px',
+                  height: '120px',
+                  left: `calc(50% + ${x}px - 60px)`,
+                  top: `calc(50% + ${y}px - 60px)`,
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform'
                 }}
