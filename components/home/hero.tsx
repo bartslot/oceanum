@@ -101,7 +101,19 @@ const Hero = () => {
 
   // Apply momentum after drag ends
   const applyMomentum = () => {
-    if (Math.abs(velocity) < 0.1) return; // Don't apply momentum for very small velocities
+    if (Math.abs(velocity) < 0.1) {
+      // Resume automatic rotation if no significant momentum
+      if (!isHovered && rotationTween.current) {
+        rotationTween.current.kill();
+        rotationTween.current = gsap.to(wheelRef.current, {
+          rotation: currentRotation + 360,
+          duration: 120,
+          ease: Linear.easeNone,
+          repeat: -1
+        });
+      }
+      return;
+    }
     
     // Kill any existing momentum
     if (momentumTween.current) {
@@ -151,10 +163,7 @@ const Hero = () => {
     setLastDragTime(Date.now());
     setVelocity(0);
     
-    // Stop all rotations
-    if (rotationTween.current) {
-      rotationTween.current.pause();
-    }
+    // Stop momentum but keep automatic rotation running
     if (momentumTween.current) {
       momentumTween.current.kill();
     }
@@ -215,9 +224,6 @@ const Hero = () => {
     setLastDragTime(Date.now());
     setVelocity(0);
     
-    if (rotationTween.current) {
-      rotationTween.current.pause();
-    }
     if (momentumTween.current) {
       momentumTween.current.kill();
     }
@@ -463,10 +469,10 @@ const Hero = () => {
       {/* Bottom text section - positioned above the wheel */}
       <div className="relative z-50 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
         <div className="hero-description mb-8">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+          <h3 className="text-2xl font-semibold text-white mb-6" style={{ fontSize: '30pt', fontWeight: '600' }}>
             History is taught here
           </h3>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: '#7C9DB4' }}>
+          <p className="max-w-2xl mx-auto leading-relaxed" style={{ color: '#7C9DB4', fontSize: '16pt' }}>
             Our platform is currently in beta and invite-only.<br />
             Request an invite now to receive a link to<br />
             create your account.
@@ -478,7 +484,7 @@ const Hero = () => {
             type="white"
             name="Join the History portal"
             href="#contact"
-            classes="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold"
+            classes="inline-flex items-center justify-center px-6 py-3 text-base font-semibold"
           />
         </div>
       </div>
