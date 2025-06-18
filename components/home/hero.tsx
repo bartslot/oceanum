@@ -7,6 +7,10 @@ const Hero = () => {
   const wheelRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const rotationTween = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [currentRotation, setCurrentRotation] = useState(0);
+  const [lastRotation, setLastRotation] = useState(0);
 
   useEffect(() => {
     const timeline = gsap.timeline();
@@ -68,6 +72,8 @@ const Hero = () => {
 
   // Handle wheel hover effects
   const handleWheelHover = (hovering) => {
+    if (isDragging) return; // Don't change rotation behavior while dragging
+    
     setIsHovered(hovering);
     
     if (hovering) {
@@ -86,6 +92,128 @@ const Hero = () => {
       });
     }
   };
+
+  // Drag interaction handlers
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStartX(e.clientX);
+    setLastRotation(currentRotation);
+    
+    // Stop the automatic rotation
+    if (rotationTween.current) {
+      rotationTween.current.pause();
+    }
+    
+    // Change cursor to grabbing
+    document.body.style.cursor = 'grabbing';
+    
+    // Prevent text selection
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - dragStartX;
+    // Convert horizontal movement to rotation (adjust sensitivity as needed)
+    const rotationDelta = deltaX * 0.5; // 0.5 degrees per pixel
+    const newRotation = lastRotation + rotationDelta;
+    
+    setCurrentRotation(newRotation);
+    
+    // Apply rotation directly to the wheel
+    gsap.set(wheelRef.current, {
+      rotation: newRotation
+    });
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    setIsDragging(false);
+    document.body.style.cursor = 'auto';
+    
+    // Resume automatic rotation from current position
+    if (rotationTween.current && !isHovered) {
+      // Update the tween to start from current rotation
+      rotationTween.current.kill();
+      rotationTween.current = gsap.to(wheelRef.current, {
+        rotation: currentRotation + 360,
+        duration: 120,
+        ease: Linear.easeNone,
+        repeat: -1
+      });
+    }
+  };
+
+  // Touch events for mobile
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    setIsDragging(true);
+    setDragStartX(touch.clientX);
+    setLastRotation(currentRotation);
+    
+    if (rotationTween.current) {
+      rotationTween.current.pause();
+    }
+    
+    e.preventDefault();
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - dragStartX;
+    const rotationDelta = deltaX * 0.5;
+    const newRotation = lastRotation + rotationDelta;
+    
+    setCurrentRotation(newRotation);
+    
+    gsap.set(wheelRef.current, {
+      rotation: newRotation
+    });
+    
+    e.preventDefault();
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    setIsDragging(false);
+    
+    if (rotationTween.current && !isHovered) {
+      rotationTween.current.kill();
+      rotationTween.current = gsap.to(wheelRef.current, {
+        rotation: currentRotation + 360,
+        duration: 120,
+        ease: Linear.easeNone,
+        repeat: -1
+      });
+    }
+  };
+
+  // Add global mouse events
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => handleMouseMove(e);
+    const handleGlobalMouseUp = () => handleMouseUp();
+    const handleGlobalTouchMove = (e) => handleTouchMove(e);
+    const handleGlobalTouchEnd = () => handleTouchEnd();
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleGlobalMouseMove);
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchend', handleGlobalTouchEnd);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
+    };
+  }, [isDragging, dragStartX, lastRotation, currentRotation, isHovered]);
 
   // Historical images - 25 images for a fuller wheel
   const historicalImages = [
@@ -157,10 +285,13 @@ const Hero = () => {
           className="relative wheel-container"
           style={{
             width: '1400px', // Increased from 1200px
-            height: '1400px' // Increased from 1200px
+            height: '1400px', // Increased from 1200px
+            cursor: isDragging ? 'grabbing' : 'grab'
           }}
           onMouseEnter={() => handleWheelHover(true)}
           onMouseLeave={() => handleWheelHover(false)}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
         >
           {historicalImages.map((image, index) => {
             // Calculate position for perfect circle
@@ -187,9 +318,12 @@ const Hero = () => {
                   top: `calc(50% + ${y}px - 60px)`, // Adjusted for new size (120/2 = 60)
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform',
-                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  pointerEvents: isDragging ? 'none' : 'auto' // Disable individual hover during drag
                 }}
                 onMouseEnter={(e) => {
+                  if (isDragging) return; // Don't trigger hover effects while dragging
+                  
                   // Individual card hover effect - 120% scale with white shadow
                   gsap.to(e.currentTarget, {
                     scale: 1.2,
@@ -201,6 +335,8 @@ const Hero = () => {
                   e.currentTarget.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(0, 0, 0, 0.3)';
                 }}
                 onMouseLeave={(e) => {
+                  if (isDragging) return; // Don't trigger hover effects while dragging
+                  
                   // Reset individual card
                   gsap.to(e.currentTarget, {
                     scale: 1,
@@ -216,6 +352,7 @@ const Hero = () => {
                   src={image}
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover transition-all duration-300"
+                  draggable={false} // Prevent image dragging
                   onError={(e) => {
                     const target = e.currentTarget;
                     const parent = target.parentElement;
