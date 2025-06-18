@@ -122,11 +122,6 @@ const Hero = () => {
             className="mx-auto h-24 md:h-32 lg:h-40 w-auto"
           />
         </div>
-        <div className="hero-subtitle">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-300 font-light">
-            portal
-          </h2>
-        </div>
       </div>
 
       {/* Circular Wheel Container - Positioned at bottom center */}
