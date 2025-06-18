@@ -106,7 +106,7 @@ const Hero = () => {
       
       {/* Background radial gradient with color-dodge blend mode */}
       <div 
-        className="absolute inset-0 z-5"
+        className="absolute inset-0 z-10"
         style={{
           background: 'radial-gradient(79.06% 79.06% at 50% 50%, rgba(197, 214, 228, 0.5) 0%, rgba(1, 4, 8, 0.5) 100%)',
           mixBlendMode: 'color-dodge'
@@ -114,7 +114,7 @@ const Hero = () => {
       ></div>
       
       {/* Top section with logo */}
-      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto pt-16 pb-8">
+      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-16 pb-8">
         <div className="hero-logo mb-8">
           <img 
             src="/logo-custom.svg" 
@@ -191,7 +191,7 @@ const Hero = () => {
 
       {/* Bottom Fade-out Gradient - Fades wheel to almost black */}
       <div 
-        className="absolute bottom-0 left-0 right-0 pointer-events-none z-22"
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-30"
         style={{
           height: '20vh',
           background: 'linear-gradient(to bottom, transparent 0%, #02111E 100%)'
@@ -200,14 +200,14 @@ const Hero = () => {
 
       {/* Foreground Gradient Overlay - Above rotating images */}
       <div 
-        className="absolute inset-0 pointer-events-none z-25"
+        className="absolute inset-0 pointer-events-none z-40"
         style={{
           background: 'linear-gradient(180.83deg, rgba(2, 82, 95, 0) 44.04%, rgba(6, 15, 39, 0.5) 71.8%, #000000 95.02%)'
         }}
       ></div>
 
       {/* Bottom text section - positioned above the wheel */}
-      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
+      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
         <div className="hero-description mb-8">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
             History is taught here
@@ -228,9 +228,6 @@ const Hero = () => {
           />
         </div>
       </div>
-
-      {/* Subtle overlay for better text readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none z-10"></div>
       
       {/* Responsive adjustments */}
       <style jsx>{`
