@@ -5,12 +5,16 @@ import Button from "../common/button";
 const Hero = () => {
   const heroRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const imagesRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [radius, setRadius] = useState(400); // Default radius for SSR
+  const [radius, setRadius] = useState(800); // Doubled the default radius
 
   useEffect(() => {
-    // Update radius based on window size
+    // Update radius based on window size - much larger now
     const updateRadius = () => {
-      setRadius(Math.min(window.innerWidth * 0.4, 350));
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      // Use 60% of the smaller dimension, with a minimum of 600px and maximum of 1000px
+      const newRadius = Math.min(Math.max(Math.min(windowWidth, windowHeight) * 0.6, 600), 1000);
+      setRadius(newRadius);
     };
 
     // Set initial radius
@@ -55,16 +59,15 @@ const Hero = () => {
         opacity: 0,
         scale: 0,
         duration: 0.6,
-        delay: 0.5 + (index * 0.03),
+        delay: 0.5 + (index * 0.02), // Slightly faster stagger for more images
         ease: "back.out(1.7)"
       });
     });
 
-    // Continuous rotation animation for the image circle
-    // The container rotates, but each image counter-rotates to stay upright
+    // Continuous rotation animation for the image circle - slower for larger circle
     const rotationTween = gsap.to(imagesRef.current, {
       rotation: 360,
-      duration: 120,
+      duration: 180, // Slower rotation for the larger circle
       ease: Linear.easeNone,
       repeat: -1
     });
@@ -73,7 +76,7 @@ const Hero = () => {
     images.forEach((image) => {
       gsap.to(image, {
         rotation: -360,
-        duration: 120,
+        duration: 180, // Match the container rotation speed
         ease: Linear.easeNone,
         repeat: -1
       });
@@ -127,7 +130,7 @@ const Hero = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Full circle of historical images */}
+      {/* Full circle of historical images - much larger now */}
       <div 
         ref={imagesRef}
         className="absolute inset-0 flex items-center justify-center"
@@ -153,10 +156,10 @@ const Hero = () => {
             return (
               <div
                 key={index}
-                className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-white/20"
+                className="history-image absolute w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 rounded-2xl overflow-hidden shadow-xl border-2 border-white/30"
                 style={{
-                  left: `calc(50% + ${x}px - 2rem)`,
-                  top: `calc(50% + ${y}px - 2rem)`,
+                  left: `calc(50% + ${x}px - 2.5rem)`,
+                  top: `calc(50% + ${y}px - 2.5rem)`,
                   transformOrigin: 'center center'
                 }}
               >
@@ -171,7 +174,7 @@ const Hero = () => {
                     const parent = target.parentElement;
                     if (parent && !parent.querySelector('.fallback')) {
                       const fallback = document.createElement('div');
-                      fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold';
+                      fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-bold';
                       fallback.textContent = `H${index + 1}`;
                       parent.appendChild(fallback);
                     }
@@ -187,7 +190,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 pointer-events-none z-20"
         style={{
-          background: 'linear-gradient(to top, rgba(30, 58, 138, 1) 0%, rgba(30, 58, 138, 0.8) 8%, transparent 15%)'
+          background: 'linear-gradient(to top, rgba(30, 58, 138, 1) 0%, rgba(30, 58, 138, 0.8) 5%, transparent 12%)'
         }}
       ></div>
 
