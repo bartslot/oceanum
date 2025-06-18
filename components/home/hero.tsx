@@ -115,8 +115,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Circular Wheel Container */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
+      {/* Circular Wheel Container - Positioned at bottom center */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20">
         <div 
           ref={wheelRef}
           className="relative wheel-container"
@@ -180,8 +180,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Bottom text section */}
-      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto mt-auto pb-20">
+      {/* Bottom text section - positioned above the wheel */}
+      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
         <div className="hero-description mb-8">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
             History is taught here
