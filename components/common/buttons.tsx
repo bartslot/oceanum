@@ -26,7 +26,7 @@ const Buttons = ({
             ? styles.white
             : styles.outline
         } 
-         py-2 px-7 font-medium rounded text-base md:text-xl tracking-wide link duration-300 flex items-center 
+         py-2 px-7 font-medium text-base md:text-xl tracking-wide link duration-300 flex items-center 
         ${additionalClasses}
       `}
     >
