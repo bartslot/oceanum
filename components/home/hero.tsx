@@ -194,6 +194,15 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Bottom Fade-out Gradient - Fades wheel to almost black */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-22"
+        style={{
+          height: '20vh',
+          background: 'linear-gradient(to bottom, transparent 0%, #02111E 100%)'
+        }}
+      ></div>
+
       {/* Foreground Gradient Overlay - Above rotating images */}
       <div 
         className="absolute inset-0 pointer-events-none z-25"
