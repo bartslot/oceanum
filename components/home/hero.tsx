@@ -5,22 +5,18 @@ import Button from "../common/button";
 const Hero = () => {
   const heroRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const imagesRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [radius, setRadius] = useState(500); // Reduced radius for positioning between text
+  const [radius, setRadius] = useState(400);
 
   useEffect(() => {
     // Update radius based on window size
     const updateRadius = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      // Use smaller radius to fit between text sections
-      const newRadius = Math.min(Math.max(Math.min(windowWidth, windowHeight) * 0.35, 400), 600);
+      const newRadius = Math.min(Math.max(Math.min(windowWidth, windowHeight) * 0.3, 300), 500);
       setRadius(newRadius);
     };
 
-    // Set initial radius
     updateRadius();
-
-    // Add resize listener
     window.addEventListener('resize', updateRadius);
 
     const timeline = gsap.timeline();
@@ -33,12 +29,6 @@ const Hero = () => {
         duration: 1,
         ease: "power2.out"
       })
-      .from(heroRef.current.querySelector(".hero-subtitle"), {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.5")
       .from(heroRef.current.querySelector(".hero-description"), {
         opacity: 0,
         y: 30,
@@ -67,7 +57,7 @@ const Hero = () => {
     // Continuous rotation animation for the image circle
     const rotationTween = gsap.to(imagesRef.current, {
       rotation: 360,
-      duration: 200, // Slower rotation
+      duration: 120,
       ease: Linear.easeNone,
       repeat: -1
     });
@@ -76,13 +66,12 @@ const Hero = () => {
     images.forEach((image) => {
       gsap.to(image, {
         rotation: -360,
-        duration: 200, // Match the container rotation speed
+        duration: 120,
         ease: Linear.easeNone,
         repeat: -1
       });
     });
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', updateRadius);
       rotationTween.kill();
@@ -107,92 +96,91 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=200&h=200&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center",
   ];
 
   return (
     <section 
-      className="w-full min-h-screen relative select-none flex flex-col items-center justify-center overflow-hidden"
+      className="w-full min-h-screen relative select-none flex flex-col overflow-hidden"
       id="home"
       ref={heroRef}
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Main content - restructured to position images between text sections */}
-      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-        {/* Top text section */}
-        <div className="hero-title mb-16">
+      {/* Top text section */}
+      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto pt-20 pb-8">
+        <div className="hero-title">
           <h2 className="text-lg md:text-xl text-gray-300 mb-2">the</h2>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4">
             History
           </h1>
-          <h2 className="hero-subtitle text-2xl md:text-3xl lg:text-4xl text-gray-300">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-300">
             portal
           </h2>
         </div>
+      </div>
 
-        {/* Historical images circle positioned between text sections */}
+      {/* Historical images circle - positioned to rotate around bottom of screen */}
+      <div 
+        ref={imagesRef}
+        className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
+        style={{ 
+          transformOrigin: 'center bottom',
+          bottom: `-${radius}px` // Position so circle center is below screen
+        }}
+      >
         <div 
-          ref={imagesRef}
-          className="relative my-12"
-          style={{ transformOrigin: 'center center' }}
+          className="relative"
+          style={{ 
+            width: `${radius * 2}px`, 
+            height: `${radius * 2}px`,
+          }}
         >
-          <div 
-            className="relative"
-            style={{ 
-              width: `${radius * 2}px`, 
-              height: `${radius * 2}px`,
-            }}
-          >
-            {historicalImages.map((image, index) => {
-              // Create circle with more spacing between images
-              const totalImages = historicalImages.length;
-              const angleStep = 360 / totalImages;
-              const angle = index * angleStep;
-              
-              // Calculate position on the circle
-              const x = Math.cos((angle * Math.PI) / 180) * radius;
-              const y = Math.sin((angle * Math.PI) / 180) * radius;
-              
-              return (
-                <div
-                  key={index}
-                  className="history-image absolute w-12 h-12 md:w-16 md:h-16 lg:w-18 lg:h-18 rounded-xl overflow-hidden shadow-lg border border-white/40"
-                  style={{
-                    left: `calc(50% + ${x}px - 1.5rem)`,
-                    top: `calc(50% + ${y}px - 1.5rem)`,
-                    transformOrigin: 'center center'
+          {historicalImages.map((image, index) => {
+            // Only show images in the top half of the circle (between text sections)
+            const totalImages = historicalImages.length;
+            const angleStep = 180 / (totalImages - 1); // Spread across 180 degrees (top half)
+            const angle = index * angleStep - 90; // Start from left side (-90°) to right side (90°)
+            
+            // Calculate position on the circle
+            const x = Math.cos((angle * Math.PI) / 180) * radius;
+            const y = Math.sin((angle * Math.PI) / 180) * radius;
+            
+            return (
+              <div
+                key={index}
+                className="history-image absolute w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-xl overflow-hidden shadow-lg border border-white/40"
+                style={{
+                  left: `calc(50% + ${x}px - 1.5rem)`,
+                  top: `calc(50% + ${y}px - 1.5rem)`,
+                  transformOrigin: 'center center'
+                }}
+              >
+                <img
+                  src={image}
+                  alt={`Historical image ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.fallback')) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold';
+                      fallback.textContent = `H${index + 1}`;
+                      parent.appendChild(fallback);
+                    }
                   }}
-                >
-                  <img
-                    src={image}
-                    alt={`Historical image ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback to a colored placeholder if image fails to load
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent && !parent.querySelector('.fallback')) {
-                        const fallback = document.createElement('div');
-                        fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold';
-                        fallback.textContent = `H${index + 1}`;
-                        parent.appendChild(fallback);
-                      }
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
+                />
+              </div>
+            );
+          })}
         </div>
+      </div>
 
-        {/* Bottom text section */}
-        <div className="hero-description mb-8 mt-16">
+      {/* Bottom text section */}
+      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto mt-auto pb-20">
+        <div className="hero-description mb-8">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
             History is taught here
           </h3>
