@@ -10,7 +10,7 @@ const Hero = () => {
   useEffect(() => {
     // Update radius based on window size
     const updateRadius = () => {
-      setRadius(Math.min(window.innerWidth * 0.5, 400));
+      setRadius(Math.min(window.innerWidth * 0.4, 350));
     };
 
     // Set initial radius
@@ -55,22 +55,34 @@ const Hero = () => {
         opacity: 0,
         scale: 0,
         duration: 0.6,
-        delay: 0.5 + (index * 0.05),
+        delay: 0.5 + (index * 0.03),
         ease: "back.out(1.7)"
       });
     });
 
     // Continuous rotation animation for the image circle
-    gsap.to(imagesRef.current, {
+    // The container rotates, but each image counter-rotates to stay upright
+    const rotationTween = gsap.to(imagesRef.current, {
       rotation: 360,
       duration: 120,
       ease: Linear.easeNone,
       repeat: -1
     });
 
+    // Counter-rotate each image to keep them upright
+    images.forEach((image) => {
+      gsap.to(image, {
+        rotation: -360,
+        duration: 120,
+        ease: Linear.easeNone,
+        repeat: -1
+      });
+    });
+
     // Cleanup
     return () => {
       window.removeEventListener('resize', updateRadius);
+      rotationTween.kill();
     };
   }, []);
 
@@ -79,8 +91,8 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center", // Van Gogh style painting
     "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Starry Night style
     "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&crop=center", // Sunflowers style
-    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Impressionist painting
-    "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&crop=center", // Post-impressionist art
+    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=200&h=200&fit=crop&crop=center", // Impressionist painting
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Post-impressionist art
     "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center", // Classic painting
     
     // Colosseum and Roman architecture
@@ -96,7 +108,7 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center", // Ancient ruins
     "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center", // Historical building
     "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center", // Castle
-    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=200&h=200&fit=crop&crop=center", // Ancient temple
+    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=200&h=200&fit=crop&crop=center", // Ancient temple
     "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center", // Monument
     "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center", // Historical site
     "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center", // Ancient artifact
@@ -119,13 +131,13 @@ const Hero = () => {
       <div 
         ref={imagesRef}
         className="absolute inset-0 flex items-center justify-center"
+        style={{ transformOrigin: 'center center' }}
       >
         <div 
           className="relative"
           style={{ 
             width: `${radius * 2}px`, 
             height: `${radius * 2}px`,
-            transformOrigin: 'center center'
           }}
         >
           {historicalImages.map((image, index) => {
@@ -138,17 +150,13 @@ const Hero = () => {
             const x = Math.cos((angle * Math.PI) / 180) * radius;
             const y = Math.sin((angle * Math.PI) / 180) * radius;
             
-            // Add slight random rotation to each image for variety
-            const imageRotation = (Math.random() - 0.5) * 30; // Random rotation between -15° and +15°
-            
             return (
               <div
                 key={index}
-                className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg"
+                className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-white/20"
                 style={{
                   left: `calc(50% + ${x}px - 2rem)`,
                   top: `calc(50% + ${y}px - 2rem)`,
-                  transform: `rotate(${imageRotation}deg)`, // Apply slight rotation to the container
                   transformOrigin: 'center center'
                 }}
               >
