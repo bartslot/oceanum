@@ -99,6 +99,25 @@ const Hero = () => {
     }
   };
 
+  // Resume automatic rotation from current position
+  const resumeAutomaticRotation = () => {
+    if (!isHovered && rotationTween.current) {
+      rotationTween.current.kill();
+      
+      // Start new rotation from current position
+      rotationTween.current = gsap.to(wheelRef.current, {
+        rotation: currentRotation + 360,
+        duration: 120,
+        ease: Linear.easeNone,
+        repeat: -1,
+        onUpdate: function() {
+          // Keep track of the current rotation during automatic rotation
+          setCurrentRotation(gsap.getProperty(wheelRef.current, "rotation") as number);
+        }
+      });
+    }
+  };
+
   // Apply momentum after drag ends
   const applyMomentum = () => {
     if (Math.abs(velocity) < 0.1) {
@@ -135,25 +154,6 @@ const Hero = () => {
         resumeAutomaticRotation();
       }
     });
-  };
-
-  // Resume automatic rotation from current position
-  const resumeAutomaticRotation = () => {
-    if (!isHovered && rotationTween.current) {
-      rotationTween.current.kill();
-      
-      // Start new rotation from current position
-      rotationTween.current = gsap.to(wheelRef.current, {
-        rotation: currentRotation + 360,
-        duration: 120,
-        ease: Linear.easeNone,
-        repeat: -1,
-        onUpdate: function() {
-          // Keep track of the current rotation during automatic rotation
-          setCurrentRotation(gsap.getProperty(wheelRef.current, "rotation") as number);
-        }
-      });
-    }
   };
 
   // Drag interaction handlers
@@ -298,33 +298,38 @@ const Hero = () => {
     };
   }, [isDragging, lastDragX, lastDragTime, currentRotation, isHovered]);
 
-  // Historical images - 25 images for a fuller wheel
+  // Historical images - 30 curated historical images
   const historicalImages = [
-    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1568454537842-d933259bb258?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1555400292-1a0b6b8b8b8b?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1568454537842-d933259bb258?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center"
+    "/history/history11.jpg", // George Washington
+    "/history/history12.jpg", // Ancient siege scene
+    "/history/history13.jpg", // Desert caravan
+    "/history/history14.jpg", // Ancient warriors with elephants
+    "/history/history15.jpg", // Historical portrait
+    "/history/history16.jpg", // Medieval scholars
+    "/history/history17.jpg", // Mongol warriors
+    "/history/history18.jpg", // Desert landscape
+    "/history/history19.jpg", // Mountain fortress
+    "/history/history20.jpg", // Kublai Khan portrait
+    "/history/history21.jpg", // Medieval battle
+    "/history/history22.jpg", // Gladiator warrior
+    "/history/history23.jpg", // Viking scene
+    "/history/history24.jpg", // Great Wall of China
+    "/history/history25.jpg", // Desert dunes
+    "/history/history26.jpg", // Ancient battle scene
+    "/history/history29.jpg", // Mongol cavalry
+    "/history/history30.jpg", // Mona Lisa
+    "/history/history11.jpg", // Repeat for fuller wheel
+    "/history/history12.jpg",
+    "/history/history13.jpg",
+    "/history/history14.jpg",
+    "/history/history15.jpg",
+    "/history/history16.jpg",
+    "/history/history17.jpg",
+    "/history/history18.jpg",
+    "/history/history19.jpg",
+    "/history/history20.jpg",
+    "/history/history21.jpg",
+    "/history/history22.jpg"
   ];
 
   return (
