@@ -36,7 +36,7 @@ const Hero = () => {
         ease: "power2.out"
       }, "-=0.3");
 
-    // Animate circular images
+    // Animate arch images
     const images = imagesRef.current.querySelectorAll(".history-image");
     images.forEach((image, index) => {
       gsap.from(image, {
@@ -48,10 +48,10 @@ const Hero = () => {
       });
     });
 
-    // Continuous rotation animation for the image circle
+    // Continuous rotation animation for the image arch
     gsap.to(imagesRef.current, {
       rotation: 360,
-      duration: 60,
+      duration: 120,
       ease: Linear.easeNone,
       repeat: -1
     });
@@ -59,46 +59,54 @@ const Hero = () => {
   }, []);
 
   const historicalImages = [
+    "https://images.pexels.com/photos/1166644/pexels-photo-1166644.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient architecture
     "https://images.pexels.com/photos/2166711/pexels-photo-2166711.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient ruins
-    "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Castle
-    "https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
-    "https://images.pexels.com/photos/2166557/pexels-photo-2166557.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient architecture
-    "https://images.pexels.com/photos/2166558/pexels-photo-2166558.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical site
-    "https://images.pexels.com/photos/2166560/pexels-photo-2166560.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Monument
-    "https://images.pexels.com/photos/2166561/pexels-photo-2166561.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical artifact
-    "https://images.pexels.com/photos/2166562/pexels-photo-2166562.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
-    "https://images.pexels.com/photos/2166563/pexels-photo-2166563.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical painting
-    "https://images.pexels.com/photos/2166564/pexels-photo-2166564.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1"  // Ancient sculpture
+    "https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
+    "https://images.pexels.com/photos/1134166/pexels-photo-1134166.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Castle
+    "https://images.pexels.com/photos/1797162/pexels-photo-1797162.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
+    "https://images.pexels.com/photos/1134167/pexels-photo-1134167.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Monument
+    "https://images.pexels.com/photos/1797163/pexels-photo-1797163.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical site
+    "https://images.pexels.com/photos/1134168/pexels-photo-1134168.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient artifact
+    "https://images.pexels.com/photos/1797164/pexels-photo-1797164.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical painting
+    "https://images.pexels.com/photos/1134169/pexels-photo-1134169.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient sculpture
+    "https://images.pexels.com/photos/1797165/pexels-photo-1797165.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval castle
+    "https://images.pexels.com/photos/1134170/pexels-photo-1134170.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient city
+    "https://images.pexels.com/photos/1797166/pexels-photo-1797166.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical artifact
+    "https://images.pexels.com/photos/1134171/pexels-photo-1134171.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
+    "https://images.pexels.com/photos/1797167/pexels-photo-1797167.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
+    "https://images.pexels.com/photos/1134172/pexels-photo-1134172.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1"  // Ancient ruins
   ];
 
   return (
     <section 
-      className="w-full min-h-screen relative select-none flex items-center justify-center"
+      className="w-full min-h-screen relative select-none flex items-center justify-center overflow-hidden"
       id="home"
       ref={heroRef}
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Floating historical images in circle */}
+      {/* Large arch of historical images - masked to show only top half */}
       <div 
         ref={imagesRef}
         className="absolute inset-0 flex items-center justify-center"
+        style={{ overflow: 'hidden' }}
       >
-        <div className="relative w-96 h-96 md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
+        <div className="relative w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px]">
           {historicalImages.map((image, index) => {
-            const angle = (index * 36) - 90; // 360/10 = 36 degrees between each image
-            const radius = 250; // Distance from center
+            // Create a larger arch - 180 degrees (half circle)
+            const angle = (index * (180 / (historicalImages.length - 1))) - 90; // -90 to 90 degrees
+            const radius = Math.min(window?.innerWidth || 1200, 600); // Responsive radius
             const x = Math.cos((angle * Math.PI) / 180) * radius;
             const y = Math.sin((angle * Math.PI) / 180) * radius;
             
             return (
               <div
                 key={index}
-                className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg"
+                className="history-image absolute w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-2xl overflow-hidden shadow-lg"
                 style={{
-                  left: `calc(50% + ${x}px - 2rem)`,
-                  top: `calc(50% + ${y}px - 2rem)`,
+                  left: `calc(50% + ${x}px - 2.5rem)`,
+                  top: `calc(50% + ${y}px - 2.5rem)`,
                   transform: `rotate(${-angle}deg)` // Counter-rotate to keep images upright
                 }}
               >
@@ -106,12 +114,24 @@ const Hero = () => {
                   src={image}
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to a placeholder if image fails to load
+                    e.currentTarget.src = `https://via.placeholder.com/200x200/4A5568/FFFFFF?text=History+${index + 1}`;
+                  }}
                 />
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Mask overlay to hide bottom half of the arch */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to top, #1e3a8a 0%, #1e3a8a 50%, transparent 50%)'
+        }}
+      ></div>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -147,7 +167,7 @@ const Hero = () => {
       </div>
 
       {/* Subtle overlay for better text readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
     </section>
   );
 };
