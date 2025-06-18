@@ -10,7 +10,7 @@ const Hero = () => {
   useEffect(() => {
     // Update radius based on window size
     const updateRadius = () => {
-      setRadius(Math.min(window.innerWidth, 600));
+      setRadius(Math.min(window.innerWidth * 0.6, 600));
     };
 
     // Set initial radius
@@ -95,20 +95,22 @@ const Hero = () => {
 
   return (
     <section 
-      className="w-full min-h-screen relative select-none flex items-center justify-center overflow-hidden"
+      className="w-full min-h-screen relative select-none flex items-center justify-center"
       id="home"
       ref={heroRef}
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Large arch of historical images - masked to show only top half */}
+      {/* Large arch of historical images - positioned to show full arch */}
       <div 
         ref={imagesRef}
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ overflow: 'hidden' }}
+        className="absolute inset-0 flex items-end justify-center"
+        style={{ 
+          paddingBottom: '10vh', // Push the center of the arch up so bottom is visible
+        }}
       >
-        <div className="relative w-[120vw] h-[120vw] max-w-[1200px] max-h-[1200px]">
+        <div className="relative" style={{ width: `${radius * 2}px`, height: `${radius}px` }}>
           {historicalImages.map((image, index) => {
             // Create a larger arch - 180 degrees (half circle)
             const angle = (index * (180 / (historicalImages.length - 1))) - 90; // -90 to 90 degrees
@@ -118,10 +120,10 @@ const Hero = () => {
             return (
               <div
                 key={index}
-                className="history-image absolute w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-2xl overflow-hidden shadow-lg"
+                className="history-image absolute w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl overflow-hidden shadow-lg"
                 style={{
-                  left: `calc(50% + ${x}px - 2.5rem)`,
-                  top: `calc(50% + ${y}px - 2.5rem)`,
+                  left: `calc(50% + ${x}px - 2rem)`,
+                  top: `calc(100% + ${y}px - 2rem)`, // Position from bottom of container
                   transform: `rotate(${-angle}deg)` // Counter-rotate to keep images upright
                 }}
               >
@@ -140,16 +142,16 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Mask overlay to hide bottom half of the arch */}
+      {/* Foreground gradient mask - black at bottom 10%, transparent above */}
       <div 
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-20"
         style={{
-          background: 'linear-gradient(to top, #1e3a8a 0%, #1e3a8a 50%, transparent 50%)'
+          background: 'linear-gradient(to top, rgba(30, 58, 138, 1) 0%, rgba(30, 58, 138, 0.8) 5%, transparent 10%)'
         }}
       ></div>
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto">
         <div className="hero-title">
           <h2 className="text-lg md:text-xl text-gray-300 mb-2">the</h2>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4">
@@ -182,7 +184,7 @@ const Hero = () => {
       </div>
 
       {/* Subtle overlay for better text readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-20 pointer-events-none z-10"></div>
     </section>
   );
 };
