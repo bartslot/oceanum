@@ -9,14 +9,21 @@ const Hero = () => {
   useEffect(() => {
     const timeline = gsap.timeline();
     
-    // Animate title
+    // Animate logo and title
     timeline
-      .from(heroRef.current.querySelector(".hero-title"), {
+      .from(heroRef.current.querySelector(".hero-logo"), {
         opacity: 0,
         y: 50,
-        duration: 1,
+        scale: 0.8,
+        duration: 1.2,
         ease: "power2.out"
       })
+      .from(heroRef.current.querySelector(".hero-subtitle"), {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.4")
       .from(heroRef.current.querySelector(".hero-description"), {
         opacity: 0,
         y: 30,
@@ -100,14 +107,17 @@ const Hero = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900"></div>
       
-      {/* Top text section */}
-      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto pt-20 pb-8">
-        <div className="hero-title">
-          <h2 className="text-lg md:text-xl text-gray-300 mb-2">the</h2>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4">
-            History
-          </h1>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-300">
+      {/* Top section with logo */}
+      <div className="relative z-30 text-center px-4 max-w-4xl mx-auto pt-16 pb-8">
+        <div className="hero-logo mb-8">
+          <img 
+            src="/logo-custom.svg" 
+            alt="History Portal Logo" 
+            className="mx-auto h-24 md:h-32 lg:h-40 w-auto"
+          />
+        </div>
+        <div className="hero-subtitle">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-300 font-light">
             portal
           </h2>
         </div>
@@ -117,7 +127,7 @@ const Hero = () => {
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <div 
           ref={wheelRef}
-          className="relative"
+          className="relative wheel-container"
           style={{
             width: '600px',
             height: '600px'
