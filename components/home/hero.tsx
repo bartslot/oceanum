@@ -130,7 +130,7 @@ const Hero = () => {
       </div>
 
       {/* Circular Wheel Container - Positioned at bottom center */}
-      <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 z-20">
         <div 
           ref={wheelRef}
           className="relative wheel-container"
