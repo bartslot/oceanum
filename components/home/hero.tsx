@@ -139,8 +139,8 @@ const Hero = () => {
         }}
       ></div>
       
-      {/* Top section with logo */}
-      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-16 pb-8">
+      {/* Top section with logo - positioned lower */}
+      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-24 pb-8">
         <div className="hero-logo mb-8">
           <img 
             src="/logo-custom.svg" 
@@ -181,10 +181,10 @@ const Hero = () => {
                 key={index}
                 className="wheel-card absolute rounded-2xl overflow-hidden transition-all duration-500 ease-out"
                 style={{
-                  width: '100px', // Smaller images (was 120px)
-                  height: '100px', // Smaller images (was 120px)
-                  left: `calc(50% + ${x}px - 50px)`, // Adjusted for new size
-                  top: `calc(50% + ${y}px - 50px)`, // Adjusted for new size
+                  width: '120px', // Increased from 100px
+                  height: '120px', // Increased from 100px
+                  left: `calc(50% + ${x}px - 60px)`, // Adjusted for new size (120/2 = 60)
+                  top: `calc(50% + ${y}px - 60px)`, // Adjusted for new size (120/2 = 60)
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
