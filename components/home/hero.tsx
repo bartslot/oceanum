@@ -11,6 +11,12 @@ const Hero = () => {
   const [dragStartX, setDragStartX] = useState(0);
   const [currentRotation, setCurrentRotation] = useState(0);
   const [lastRotation, setLastRotation] = useState(0);
+  
+  // Heavy wheel physics state
+  const [velocity, setVelocity] = useState(0);
+  const [lastDragTime, setLastDragTime] = useState(0);
+  const [lastDragX, setLastDragX] = useState(0);
+  const momentumTween = useRef(null);
 
   useEffect(() => {
     const timeline = gsap.timeline();
@@ -93,15 +99,64 @@ const Hero = () => {
     }
   };
 
+  // Apply momentum after drag ends
+  const applyMomentum = () => {
+    if (Math.abs(velocity) < 0.1) return; // Don't apply momentum for very small velocities
+    
+    // Kill any existing momentum
+    if (momentumTween.current) {
+      momentumTween.current.kill();
+    }
+    
+    // Calculate momentum duration based on velocity (heavier = longer momentum)
+    const momentumDuration = Math.min(Math.abs(velocity) * 3, 8); // Max 8 seconds
+    const finalRotation = currentRotation + (velocity * momentumDuration * 60); // Heavy momentum
+    
+    momentumTween.current = gsap.to({}, {
+      duration: momentumDuration,
+      ease: "power3.out", // Heavy deceleration
+      onUpdate: function() {
+        const progress = this.progress();
+        const currentMomentumRotation = currentRotation + (velocity * momentumDuration * 60 * progress * (1 - progress * 0.8));
+        
+        setCurrentRotation(currentMomentumRotation);
+        gsap.set(wheelRef.current, {
+          rotation: currentMomentumRotation
+        });
+      },
+      onComplete: () => {
+        setVelocity(0);
+        // Resume automatic rotation if not hovered
+        if (!isHovered) {
+          if (rotationTween.current) {
+            rotationTween.current.kill();
+            rotationTween.current = gsap.to(wheelRef.current, {
+              rotation: currentRotation + 360,
+              duration: 120,
+              ease: Linear.easeNone,
+              repeat: -1
+            });
+          }
+        }
+      }
+    });
+  };
+
   // Drag interaction handlers
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setDragStartX(e.clientX);
+    setLastDragX(e.clientX);
     setLastRotation(currentRotation);
+    setLastDragTime(Date.now());
+    setVelocity(0);
     
-    // Stop the automatic rotation
+    // Stop all rotations
     if (rotationTween.current) {
       rotationTween.current.pause();
+    }
+    if (momentumTween.current) {
+      momentumTween.current.kill();
     }
     
     // Change cursor to grabbing
@@ -114,16 +169,29 @@ const Hero = () => {
   const handleMouseMove = (e) => {
     if (!isDragging) return;
     
-    const deltaX = e.clientX - dragStartX;
-    // Convert horizontal movement to rotation (adjust sensitivity as needed)
-    const rotationDelta = deltaX * 0.5; // 0.5 degrees per pixel
-    const newRotation = lastRotation + rotationDelta;
+    const currentTime = Date.now();
+    const deltaX = e.clientX - lastDragX;
+    const deltaTime = currentTime - lastDragTime;
+    
+    // Much reduced sensitivity for heavy feel (0.1 instead of 0.5)
+    const rotationDelta = deltaX * 0.1;
+    const newRotation = currentRotation + rotationDelta;
+    
+    // Calculate velocity for momentum (pixels per millisecond)
+    if (deltaTime > 0) {
+      const newVelocity = deltaX / deltaTime;
+      setVelocity(newVelocity * 0.3); // Reduce velocity for heavier feel
+    }
     
     setCurrentRotation(newRotation);
+    setLastDragX(e.clientX);
+    setLastDragTime(currentTime);
     
-    // Apply rotation directly to the wheel
-    gsap.set(wheelRef.current, {
-      rotation: newRotation
+    // Apply rotation with heavy easing
+    gsap.to(wheelRef.current, {
+      rotation: newRotation,
+      duration: 0.3, // Slower response for heavy feel
+      ease: "power2.out"
     });
   };
 
@@ -133,17 +201,8 @@ const Hero = () => {
     setIsDragging(false);
     document.body.style.cursor = 'auto';
     
-    // Resume automatic rotation from current position
-    if (rotationTween.current && !isHovered) {
-      // Update the tween to start from current rotation
-      rotationTween.current.kill();
-      rotationTween.current = gsap.to(wheelRef.current, {
-        rotation: currentRotation + 360,
-        duration: 120,
-        ease: Linear.easeNone,
-        repeat: -1
-      });
-    }
+    // Apply momentum based on final velocity
+    applyMomentum();
   };
 
   // Touch events for mobile
@@ -151,10 +210,16 @@ const Hero = () => {
     const touch = e.touches[0];
     setIsDragging(true);
     setDragStartX(touch.clientX);
+    setLastDragX(touch.clientX);
     setLastRotation(currentRotation);
+    setLastDragTime(Date.now());
+    setVelocity(0);
     
     if (rotationTween.current) {
       rotationTween.current.pause();
+    }
+    if (momentumTween.current) {
+      momentumTween.current.kill();
     }
     
     e.preventDefault();
@@ -164,14 +229,27 @@ const Hero = () => {
     if (!isDragging) return;
     
     const touch = e.touches[0];
-    const deltaX = touch.clientX - dragStartX;
-    const rotationDelta = deltaX * 0.5;
-    const newRotation = lastRotation + rotationDelta;
+    const currentTime = Date.now();
+    const deltaX = touch.clientX - lastDragX;
+    const deltaTime = currentTime - lastDragTime;
+    
+    // Heavy wheel sensitivity
+    const rotationDelta = deltaX * 0.1;
+    const newRotation = currentRotation + rotationDelta;
+    
+    if (deltaTime > 0) {
+      const newVelocity = deltaX / deltaTime;
+      setVelocity(newVelocity * 0.3);
+    }
     
     setCurrentRotation(newRotation);
+    setLastDragX(touch.clientX);
+    setLastDragTime(currentTime);
     
-    gsap.set(wheelRef.current, {
-      rotation: newRotation
+    gsap.to(wheelRef.current, {
+      rotation: newRotation,
+      duration: 0.3,
+      ease: "power2.out"
     });
     
     e.preventDefault();
@@ -181,16 +259,7 @@ const Hero = () => {
     if (!isDragging) return;
     
     setIsDragging(false);
-    
-    if (rotationTween.current && !isHovered) {
-      rotationTween.current.kill();
-      rotationTween.current = gsap.to(wheelRef.current, {
-        rotation: currentRotation + 360,
-        duration: 120,
-        ease: Linear.easeNone,
-        repeat: -1
-      });
-    }
+    applyMomentum();
   };
 
   // Add global mouse events
@@ -213,7 +282,7 @@ const Hero = () => {
       document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('touchend', handleGlobalTouchEnd);
     };
-  }, [isDragging, dragStartX, lastRotation, currentRotation, isHovered]);
+  }, [isDragging, lastDragX, lastDragTime, currentRotation, isHovered]);
 
   // Historical images - 25 images for a fuller wheel
   const historicalImages = [
@@ -268,7 +337,7 @@ const Hero = () => {
       ></div>
       
       {/* Top section with logo - positioned lower */}
-      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-24 pb-8">
+      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-32 pb-8">
         <div className="hero-logo mb-8">
           <img 
             src="/logo-custom.svg" 
@@ -312,10 +381,10 @@ const Hero = () => {
                 key={index}
                 className="wheel-card absolute rounded-2xl overflow-hidden transition-all duration-500 ease-out"
                 style={{
-                  width: '120px', // Increased from 100px
-                  height: '120px', // Increased from 100px
-                  left: `calc(50% + ${x}px - 60px)`, // Adjusted for new size (120/2 = 60)
-                  top: `calc(50% + ${y}px - 60px)`, // Adjusted for new size (120/2 = 60)
+                  width: '130px', // Slightly increased from 120px
+                  height: '130px', // Slightly increased from 120px
+                  left: `calc(50% + ${x}px - 65px)`, // Adjusted for new size (130/2 = 65)
+                  top: `calc(50% + ${y}px - 65px)`, // Adjusted for new size (130/2 = 65)
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
