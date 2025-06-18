@@ -50,8 +50,8 @@ const Hero = React.memo(() => {
       </style>
       <div className="font-medium flex flex-col pt-32 md:pt-0 select-none">
         <div className="md:mb-5 mb-2">
-          <p className="text-4xl seq">Hello 👋🏻</p>
-          <h1 className="text-3xl seq">I am Ayush Singh</h1>
+          <p className="text-4xl seq">Teachers</p>
+          <h1 className="text-3xl seq">start here</h1>
         </div>
         <p className="mb-5">
           <span
