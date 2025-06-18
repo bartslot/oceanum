@@ -75,35 +75,35 @@ const Hero = () => {
   }, []);
 
   const historicalImages = [
-    // Van Gogh paintings
-    "https://images.pexels.com/photos/1070527/pexels-photo-1070527.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Starry Night style
-    "https://images.pexels.com/photos/1070528/pexels-photo-1070528.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Sunflowers style
-    "https://images.pexels.com/photos/1070529/pexels-photo-1070529.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Van Gogh style painting
-    "https://images.pexels.com/photos/1070530/pexels-photo-1070530.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Impressionist painting
-    "https://images.pexels.com/photos/1070531/pexels-photo-1070531.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Post-impressionist art
-    "https://images.pexels.com/photos/1070532/pexels-photo-1070532.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Classic painting
+    // Van Gogh paintings - using Unsplash for reliable image sources
+    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center", // Van Gogh style painting
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Starry Night style
+    "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&crop=center", // Sunflowers style
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Impressionist painting
+    "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&crop=center", // Post-impressionist art
+    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center", // Classic painting
     
     // Colosseum and Roman architecture
-    "https://images.pexels.com/photos/2064827/pexels-photo-2064827.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Colosseum exterior
-    "https://images.pexels.com/photos/2064828/pexels-photo-2064828.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Colosseum interior
-    "https://images.pexels.com/photos/2064829/pexels-photo-2064829.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman Forum
-    "https://images.pexels.com/photos/2064830/pexels-photo-2064830.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman ruins
-    "https://images.pexels.com/photos/2064831/pexels-photo-2064831.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient Roman architecture
-    "https://images.pexels.com/photos/2064832/pexels-photo-2064832.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Roman amphitheater
+    "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=200&h=200&fit=crop&crop=center", // Colosseum exterior
+    "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=200&h=200&fit=crop&crop=center", // Colosseum interior
+    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=200&h=200&fit=crop&crop=center", // Roman Forum
+    "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center", // Roman ruins
+    "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=200&h=200&fit=crop&crop=center", // Ancient Roman architecture
+    "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=200&h=200&fit=crop&crop=center", // Roman amphitheater
     
     // Additional historical content
-    "https://images.pexels.com/photos/1166644/pexels-photo-1166644.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient architecture
-    "https://images.pexels.com/photos/2166711/pexels-photo-2166711.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient ruins
-    "https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical building
-    "https://images.pexels.com/photos/1134166/pexels-photo-1134166.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Castle
-    "https://images.pexels.com/photos/1797162/pexels-photo-1797162.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient temple
-    "https://images.pexels.com/photos/1134167/pexels-photo-1134167.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Monument
-    "https://images.pexels.com/photos/1797163/pexels-photo-1797163.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical site
-    "https://images.pexels.com/photos/1134168/pexels-photo-1134168.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient artifact
-    "https://images.pexels.com/photos/1797164/pexels-photo-1797164.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Historical painting
-    "https://images.pexels.com/photos/1134169/pexels-photo-1134169.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient sculpture
-    "https://images.pexels.com/photos/1797165/pexels-photo-1797165.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Medieval castle
-    "https://images.pexels.com/photos/1134170/pexels-photo-1134170.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1", // Ancient city
+    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=200&h=200&fit=crop&crop=center", // Ancient architecture
+    "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center", // Ancient ruins
+    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center", // Historical building
+    "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center", // Castle
+    "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=200&h=200&fit=crop&crop=center", // Ancient temple
+    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center", // Monument
+    "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center", // Historical site
+    "https://images.unsplash.com/photo-1548585744-c5b8b1b5b3c5?w=200&h=200&fit=crop&crop=center", // Ancient artifact
+    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center", // Historical painting
+    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&crop=center", // Ancient sculpture
+    "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=200&h=200&fit=crop&crop=center", // Medieval castle
+    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=200&h=200&fit=crop&crop=center", // Ancient city
   ];
 
   return (
@@ -157,8 +157,16 @@ const Hero = () => {
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    // Fallback to a placeholder if image fails to load
-                    e.currentTarget.src = `https://via.placeholder.com/200x200/4A5568/FFFFFF?text=History+${index + 1}`;
+                    // Fallback to a colored placeholder if image fails to load
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.fallback')) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold';
+                      fallback.textContent = `H${index + 1}`;
+                      parent.appendChild(fallback);
+                    }
                   }}
                 />
               </div>
