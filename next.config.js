@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+module.exports = {
   swcMinify: false,
-  experimental: {
-    esmExternals: false
+  reactStrictMode: true,
+  webpack: (config) => {
+    return config;
   }
 }
-
-module.exports = nextConfig
