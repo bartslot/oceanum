@@ -130,7 +130,7 @@ const Hero = () => {
       </div>
 
       {/* Circular Wheel Container - Positioned at bottom center */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 z-20">
         <div 
           ref={wheelRef}
           className="relative wheel-container"
@@ -159,7 +159,7 @@ const Hero = () => {
             return (
               <div
                 key={index}
-                className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm top-[50vh]"
+                className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm"
                 style={{
                   width: '120px',
                   height: '120px',
