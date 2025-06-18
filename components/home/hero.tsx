@@ -10,7 +10,7 @@ const Hero = () => {
   useEffect(() => {
     // Update radius based on window size
     const updateRadius = () => {
-      setRadius(Math.min(window.innerWidth * 0.4, 400));
+      setRadius(Math.min(window.innerWidth * 0.5, 400));
     };
 
     // Set initial radius
