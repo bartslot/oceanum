@@ -63,6 +63,7 @@ const Hero = () => {
     });
 
     // Counter-rotate the images to keep them upright
+    // This ensures images stay oriented correctly as the wheel rotates
     gsap.to(cards, {
       rotation: -360,
       duration: 120,
@@ -153,6 +154,7 @@ const Hero = () => {
                   height: '80px',
                   left: `calc(50% + ${x}px - 40px)`,
                   top: `calc(50% + ${y}px - 40px)`,
+                  transformOrigin: `${-x}px ${-y}px`, // Set transform origin to center of wheel
                   willChange: 'transform'
                 }}
               >
