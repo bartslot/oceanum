@@ -139,7 +139,8 @@ const Hero = () => {
             // Calculate individual rotation based on position
             // Top = 0°, Right = 90°, Bottom = 180°, Left = -90° (or 270°)
             // Adjust angle so top is 0° (subtract 90° since 0° starts at right in CSS)
-            const imageRotation = angle - 90;
+            // Add 180° vertical flip to all images
+            const imageRotation = angle - 90 + 180;
             
             return (
               <div
