@@ -1,10 +1,12 @@
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { gsap, Linear } from "gsap";
 import Button from "../common/button";
 
 const Hero = () => {
   const heroRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const wheelRef: MutableRefObject<HTMLDivElement> = useRef(null);
+  const rotationTween = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const timeline = gsap.timeline();
@@ -55,7 +57,7 @@ const Hero = () => {
     );
 
     // Continuous rotation animation for the entire wheel
-    gsap.to(wheelRef.current, {
+    rotationTween.current = gsap.to(wheelRef.current, {
       rotation: 360,
       duration: 120,
       ease: Linear.easeNone,
@@ -64,7 +66,28 @@ const Hero = () => {
 
   }, []);
 
-  // Historical images - 22 images for a full wheel
+  // Handle wheel hover effects
+  const handleWheelHover = (hovering) => {
+    setIsHovered(hovering);
+    
+    if (hovering) {
+      // Slowly decelerate to a stop
+      gsap.to(rotationTween.current, {
+        timeScale: 0,
+        duration: 2,
+        ease: "power2.out"
+      });
+    } else {
+      // Resume normal rotation
+      gsap.to(rotationTween.current, {
+        timeScale: 1,
+        duration: 1.5,
+        ease: "power2.out"
+      });
+    }
+  };
+
+  // Historical images - 25 images for a fuller wheel
   const historicalImages = [
     "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop&crop=center",
@@ -87,7 +110,10 @@ const Hero = () => {
     "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=300&h=300&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=300&h=300&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1568454537842-d933259bb258?w=300&h=300&fit=crop&crop=center",
-    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=center"
+    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=300&h=300&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop&crop=center"
   ];
 
   return (
@@ -124,21 +150,23 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Circular Wheel Container - Positioned at bottom center */}
+      {/* Circular Wheel Container - Bigger and positioned at bottom center */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 z-20">
         <div 
           ref={wheelRef}
           className="relative wheel-container"
           style={{
-            width: '1200px',
-            height: '1200px'
+            width: '1400px', // Increased from 1200px
+            height: '1400px' // Increased from 1200px
           }}
+          onMouseEnter={() => handleWheelHover(true)}
+          onMouseLeave={() => handleWheelHover(false)}
         >
           {historicalImages.map((image, index) => {
             // Calculate position for perfect circle
             const totalImages = historicalImages.length;
             const angle = (index * 360) / totalImages;
-            const radius = 600; // Distance from center
+            const radius = 700; // Increased radius for bigger wheel
             
             // Convert angle to radians and calculate x, y positions
             const radian = (angle * Math.PI) / 180;
@@ -146,28 +174,48 @@ const Hero = () => {
             const y = Math.sin(radian) * radius;
             
             // Calculate individual rotation based on position
-            // Top = 0°, Right = 90°, Bottom = 180°, Left = -90° (or 270°)
-            // Adjust angle so top is 0° (subtract 90° since 0° starts at right in CSS)
-            // Add 180° vertical flip to all images
             const imageRotation = angle - 90 + 180;
             
             return (
               <div
                 key={index}
-                className="wheel-card absolute rounded-2xl overflow-hidden shadow-xl border-2 border-white/30 backdrop-blur-sm"
+                className={`wheel-card absolute rounded-2xl overflow-hidden shadow-xl transition-all duration-500 ease-out ${
+                  isHovered 
+                    ? 'border-2 border-white/80 shadow-2xl' 
+                    : 'border-0 border-transparent'
+                }`}
                 style={{
-                  width: '120px',
-                  height: '120px',
-                  left: `calc(50% + ${x}px - 60px)`,
-                  top: `calc(50% + ${y}px - 60px)`,
+                  width: '100px', // Smaller images (was 120px)
+                  height: '100px', // Smaller images (was 120px)
+                  left: `calc(50% + ${x}px - 50px)`, // Adjusted for new size
+                  top: `calc(50% + ${y}px - 50px)`, // Adjusted for new size
                   transform: `rotate(${imageRotation}deg)`,
-                  willChange: 'transform'
+                  willChange: 'transform',
+                  boxShadow: isHovered 
+                    ? '0 0 30px rgba(255, 255, 255, 0.3), 0 10px 25px rgba(0, 0, 0, 0.3)' 
+                    : '0 4px 15px rgba(0, 0, 0, 0.2)'
+                }}
+                onMouseEnter={(e) => {
+                  // Individual card hover effect
+                  gsap.to(e.currentTarget, {
+                    scale: 1.1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
+                }}
+                onMouseLeave={(e) => {
+                  // Reset individual card
+                  gsap.to(e.currentTarget, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                  });
                 }}
               >
                 <img
                   src={image}
                   alt={`Historical image ${index + 1}`}
-                  className="w-full h-full object-cover transition-opacity duration-300"
+                  className="w-full h-full object-cover transition-all duration-300"
                   onError={(e) => {
                     const target = e.currentTarget;
                     const parent = target.parentElement;
@@ -183,6 +231,17 @@ const Hero = () => {
                 
                 {/* Subtle overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20"></div>
+                
+                {/* Hover glow effect */}
+                {isHovered && (
+                  <div 
+                    className="absolute inset-0 rounded-2xl"
+                    style={{
+                      background: 'linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                      boxShadow: 'inset 0 0 20px rgba(255,255,255,0.1)'
+                    }}
+                  ></div>
+                )}
               </div>
             );
           })}
@@ -231,19 +290,24 @@ const Hero = () => {
       
       {/* Responsive adjustments */}
       <style jsx>{`
-        @media (max-width: 1200px) {
+        @media (max-width: 1400px) {
           .wheel-container {
             transform: scale(0.8) !important;
           }
         }
+        @media (max-width: 1200px) {
+          .wheel-container {
+            transform: scale(0.7) !important;
+          }
+        }
         @media (max-width: 768px) {
           .wheel-container {
-            transform: scale(0.6) !important;
+            transform: scale(0.5) !important;
           }
         }
         @media (max-width: 480px) {
           .wheel-container {
-            transform: scale(0.4) !important;
+            transform: scale(0.35) !important;
           }
         }
       `}</style>
