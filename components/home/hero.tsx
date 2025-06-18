@@ -180,6 +180,14 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Foreground Gradient Overlay - Above rotating images */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-25"
+        style={{
+          background: 'linear-gradient(180.83deg, rgba(2, 82, 95, 0) 44.04%, rgba(6, 15, 39, 0.5) 71.8%, #000000 95.02%)'
+        }}
+      ></div>
+
       {/* Bottom text section - positioned above the wheel */}
       <div className="relative z-30 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
         <div className="hero-description mb-8">
