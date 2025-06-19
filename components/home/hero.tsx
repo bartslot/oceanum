@@ -180,7 +180,7 @@ const Hero = () => {
         
         if (distance === 0) {
           // Hovered card - biggest with highest z-index
-          scale = 1.3;
+          scale = 1.2;
           zIndex = 20;
         } else if (distance === 1) {
           // Adjacent cards - medium with medium z-index
@@ -192,7 +192,7 @@ const Hero = () => {
           zIndex = 5;
         } else {
           // All other cards - normal with base z-index
-          scale = 1;
+          scale = .9;
           zIndex = 1;
         }
         
