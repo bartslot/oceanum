@@ -552,7 +552,7 @@ const Hero = () => {
           <h3 className="text-2xl font-semibold text-white mb-6" style={{ fontSize: '30pt', fontWeight: '600' }}>
             History is taught here
           </h3>
-          <p className="max-w-2xl mx-auto leading-relaxed" style={{ color: '#7C9DB4', fontSize: '16pt' }}>
+          <p className="max-w-2xl mx-auto leading-relaxed" style={{ color: '#7C9DB4', fontSize: '1em' }}>
             Our platform is currently in beta and invite-only.<br />
             Request an invite now to receive a link to<br />
             create your account.
