@@ -11,6 +11,7 @@ const Hero = () => {
   const [dragStartX, setDragStartX] = useState(0);
   const [currentRotation, setCurrentRotation] = useState(0);
   const [lastRotation, setLastRotation] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
   
   // Heavy wheel physics state
   const [velocity, setVelocity] = useState(0);
@@ -156,6 +157,65 @@ const Hero = () => {
     });
   };
 
+  // Enhanced hover effect with neighboring scaling
+  const handleCardHover = (index, isEntering) => {
+    if (isDragging) return; // Don't trigger hover effects while dragging
+    
+    const cards = wheelRef.current.querySelectorAll(".wheel-card");
+    const totalCards = cards.length;
+    
+    if (isEntering) {
+      setHoveredIndex(index);
+      
+      // Scale the hovered card and its neighbors
+      cards.forEach((card, cardIndex) => {
+        const distance = Math.min(
+          Math.abs(cardIndex - index),
+          Math.abs(cardIndex - index + totalCards),
+          Math.abs(cardIndex - index - totalCards)
+        );
+        
+        let scale = 1;
+        let shadowIntensity = '0 4px 15px rgba(0, 0, 0, 0.2)';
+        
+        if (distance === 0) {
+          // Hovered card - biggest
+          scale = 1.3;
+          shadowIntensity = '0 0 40px rgba(255, 255, 255, 0.9), 0 0 80px rgba(255, 255, 255, 0.5), 0 15px 30px rgba(0, 0, 0, 0.4)';
+        } else if (distance === 1) {
+          // Adjacent cards - medium
+          scale = 1.15;
+          shadowIntensity = '0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.3)';
+        } else if (distance === 2) {
+          // Second neighbors - small
+          scale = 1.08;
+          shadowIntensity = '0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2), 0 6px 15px rgba(0, 0, 0, 0.25)';
+        }
+        
+        gsap.to(card, {
+          scale: scale,
+          duration: 0.4,
+          ease: "power2.out"
+        });
+        
+        card.style.boxShadow = shadowIntensity;
+      });
+    } else {
+      setHoveredIndex(-1);
+      
+      // Reset all cards
+      cards.forEach((card) => {
+        gsap.to(card, {
+          scale: 1,
+          duration: 0.4,
+          ease: "power2.out"
+        });
+        
+        card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+      });
+    }
+  };
+
   // Drag interaction handlers
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -164,6 +224,18 @@ const Hero = () => {
     setLastRotation(currentRotation);
     setLastDragTime(Date.now());
     setVelocity(0);
+    
+    // Reset any hover effects when starting to drag
+    setHoveredIndex(-1);
+    const cards = wheelRef.current.querySelectorAll(".wheel-card");
+    cards.forEach((card) => {
+      gsap.to(card, {
+        scale: 1,
+        duration: 0.2,
+        ease: "power2.out"
+      });
+      card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+    });
     
     // Stop both momentum and automatic rotation
     if (momentumTween.current) {
@@ -228,6 +300,18 @@ const Hero = () => {
     setLastRotation(currentRotation);
     setLastDragTime(Date.now());
     setVelocity(0);
+    
+    // Reset any hover effects when starting to drag
+    setHoveredIndex(-1);
+    const cards = wheelRef.current.querySelectorAll(".wheel-card");
+    cards.forEach((card) => {
+      gsap.to(card, {
+        scale: 1,
+        duration: 0.2,
+        ease: "power2.out"
+      });
+      card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+    });
     
     if (momentumTween.current) {
       momentumTween.current.kill();
@@ -409,32 +493,8 @@ const Hero = () => {
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
                   pointerEvents: isDragging ? 'none' : 'auto' // Disable individual hover during drag
                 }}
-                onMouseEnter={(e) => {
-                  if (isDragging) return; // Don't trigger hover effects while dragging
-                  
-                  // Individual card hover effect - 120% scale with white shadow
-                  gsap.to(e.currentTarget, {
-                    scale: 1.2,
-                    duration: 0.3,
-                    ease: "power2.out"
-                  });
-                  
-                  // Add white shadow effect
-                  e.currentTarget.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(0, 0, 0, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  if (isDragging) return; // Don't trigger hover effects while dragging
-                  
-                  // Reset individual card
-                  gsap.to(e.currentTarget, {
-                    scale: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                  });
-                  
-                  // Remove white shadow effect
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
-                }}
+                onMouseEnter={() => handleCardHover(index, true)}
+                onMouseLeave={() => handleCardHover(index, false)}
               >
                 <img
                   src={image}
