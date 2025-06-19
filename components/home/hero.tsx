@@ -565,7 +565,7 @@ const Hero = () => {
             name="Join the History portal"
             href="#contact"
             classes="inline-flex items-center justify-center px-6 py-3 font-semibold"
-            style={{ fontSize: '16px' }}
+            style={{ fontSize: '1em' }}
           />
         </div>
       </div>
