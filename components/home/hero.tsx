@@ -157,7 +157,7 @@ const Hero = () => {
     });
   };
 
-  // Enhanced hover effect with neighboring scaling
+  // Enhanced hover effect with neighboring scaling and z-index hierarchy
   const handleCardHover = (index, isEntering) => {
     if (isDragging) return; // Don't trigger hover effects while dragging
     
@@ -167,7 +167,7 @@ const Hero = () => {
     if (isEntering) {
       setHoveredIndex(index);
       
-      // Scale the hovered card and its neighbors
+      // Scale the hovered card and its neighbors with z-index hierarchy
       cards.forEach((card, cardIndex) => {
         const distance = Math.min(
           Math.abs(cardIndex - index),
@@ -176,20 +176,24 @@ const Hero = () => {
         );
         
         let scale = 1;
-        let shadowIntensity = '0 4px 15px rgba(0, 0, 0, 0.2)';
+        let zIndex = 1;
         
         if (distance === 0) {
-          // Hovered card - biggest
+          // Hovered card - biggest with highest z-index
           scale = 1.3;
-          shadowIntensity = '0 0 40px rgba(255, 255, 255, 0.9), 0 0 80px rgba(255, 255, 255, 0.5), 0 15px 30px rgba(0, 0, 0, 0.4)';
+          zIndex = 20;
         } else if (distance === 1) {
-          // Adjacent cards - medium
+          // Adjacent cards - medium with medium z-index
           scale = 1.15;
-          shadowIntensity = '0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.3)';
+          zIndex = 10;
         } else if (distance === 2) {
-          // Second neighbors - small
+          // Second neighbors - small with low z-index
           scale = 1.08;
-          shadowIntensity = '0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2), 0 6px 15px rgba(0, 0, 0, 0.25)';
+          zIndex = 5;
+        } else {
+          // All other cards - normal with base z-index
+          scale = 1;
+          zIndex = 1;
         }
         
         gsap.to(card, {
@@ -198,7 +202,8 @@ const Hero = () => {
           ease: "power2.out"
         });
         
-        card.style.boxShadow = shadowIntensity;
+        // Set z-index for proper layering
+        card.style.zIndex = zIndex.toString();
       });
     } else {
       setHoveredIndex(-1);
@@ -211,7 +216,8 @@ const Hero = () => {
           ease: "power2.out"
         });
         
-        card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+        // Reset z-index to base level
+        card.style.zIndex = '1';
       });
     }
   };
@@ -234,7 +240,7 @@ const Hero = () => {
         duration: 0.2,
         ease: "power2.out"
       });
-      card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+      card.style.zIndex = '1';
     });
     
     // Stop both momentum and automatic rotation
@@ -310,7 +316,7 @@ const Hero = () => {
         duration: 0.2,
         ease: "power2.out"
       });
-      card.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+      card.style.zIndex = '1';
     });
     
     if (momentumTween.current) {
@@ -491,7 +497,8 @@ const Hero = () => {
                   transform: `rotate(${imageRotation}deg)`,
                   willChange: 'transform',
                   boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-                  pointerEvents: isDragging ? 'none' : 'auto' // Disable individual hover during drag
+                  pointerEvents: isDragging ? 'none' : 'auto', // Disable individual hover during drag
+                  zIndex: 1 // Base z-index
                 }}
                 onMouseEnter={() => handleCardHover(index, true)}
                 onMouseLeave={() => handleCardHover(index, false)}
