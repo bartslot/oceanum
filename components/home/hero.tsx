@@ -390,37 +390,44 @@ const Hero = () => {
 
   // Historical images - 30 curated historical images
   const historicalImages = [
-    "/history/history11.jpg", // George Washington
-    "/history/history12.jpg", // Ancient siege scene
-    "/history/history13.jpg", // Desert caravan
-    "/history/history14.jpg", // Ancient warriors with elephants
-    "/history/history15.jpg", // Historical portrait
-    "/history/history16.jpg", // Medieval scholars
-    "/history/history17.jpg", // Mongol warriors
-    "/history/history18.jpg", // Desert landscape
-    "/history/history19.jpg", // Mountain fortress
-    "/history/history20.jpg", // Kublai Khan portrait
-    "/history/history21.jpg", // Medieval battle
-    "/history/history22.jpg", // Gladiator warrior
-    "/history/history23.jpg", // Viking scene
-    "/history/history24.jpg", // Great Wall of China
-    "/history/history25.jpg", // Desert dunes
-    "/history/history26.jpg", // Ancient battle scene
-    "/history/history29.jpg", // Mongol cavalry
-    "/history/history30.jpg", // Mona Lisa
-    "/history/history11.jpg", // Repeat for fuller wheel
-    "/history/history12.jpg",
-    "/history/history13.jpg",
-    "/history/history14.jpg",
-    "/history/history15.jpg",
-    "/history/history16.jpg",
-    "/history/history17.jpg",
-    "/history/history18.jpg",
-    "/history/history19.jpg",
-    "/history/history20.jpg",
-    "/history/history21.jpg",
-    "/history/history22.jpg"
+    "/history/1history.jpg",
+    "/history/2history.jpg",
+    "/history/3history.jpg",
+    "/history/4history.jpg",
+    "/history/5history.jpg",
+    "/history/6history.jpg",
+    "/history/7history.jpg",
+    "/history/8history.jpg",
+    "/history/9history.jpg",
+    "/history/10history.jpg",
+    "/history/11history.jpg",
+    "/history/12history.jpg",
+    "/history/13history.jpg",
+    "/history/14history.jpg",
+    "/history/15history.jpg",
+    "/history/16history.jpg",
+    "/history/17history.jpg",
+    "/history/18history.jpg",
+    "/history/19history.jpg",
+    "/history/20history.jpg",
+    "/history/21history.jpg",
+    "/history/22history.jpg",
+    "/history/23history.jpg",
+    "/history/24history.jpg",
+    "/history/25history.jpg",
+    "/history/26history.jpg",
+    "/history/27history.jpg",
+    "/history/28history.jpg",
+    "/history/29history.jpg",
+    "/history/30history.jpg",
+    "/history/31history.jpg",
+    "/history/32history.jpg",
+    "/history/33history.jpg",
+    "/history/34history.jpg",
+    "/history/35history.jpg",
+    "/history/36history.jpg"
   ];
+
 
   return (
     <section 
@@ -449,7 +456,7 @@ const Hero = () => {
       <div className="relative z-50 text-center px-4 max-w-4xl mx-auto pt-32 pb-8">
         <div className="hero-logo mb-8">
           <img 
-            src="/logo-custom.svg" 
+            src="/logo/historyPortal_darkMode.svg" 
             alt="History Portal Logo" 
             className="mx-auto h-24 md:h-32 lg:h-40 w-auto"
           />
