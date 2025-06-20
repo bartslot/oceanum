@@ -6,14 +6,15 @@ const Header = ({ children }) => {
       <div className="flex justify-between section-container">
         <a href="#home" className="link">
           <Image
-            src="/oceanumlogo.svg"
-            alt="Logo Oceanum"
-            width={45}
-            height={45}
+            src="/logo/historyPortal.svg"
+            alt="Logo HistoryPortal"
+            width={98*2}
+            height={65*2}
           />
         </a>
         <div className="outer-menu relative">
           <input
+            title="menu"
             aria-labelledby="menu"
             className="checkbox-toggle link absolute top-0 right-0 w-6 h-6 opacity-0"
             type="checkbox"
