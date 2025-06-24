@@ -99,6 +99,7 @@ const TrendingSection = () => {
 
             {/* Navigation Arrow */}
             <button
+              title="Next"
               onClick={nextSlide}
               className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 backdrop-blur-sm border border-white/20"
               disabled={currentSlide >= trendingItems.length - 4}
