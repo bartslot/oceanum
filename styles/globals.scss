@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Google Sans";
-  src: local("Google Sans Medium"), local("GoogleSans-Medium"),
-    url("/fonts/GoogleSans-Medium.woff2") format("woff2"),
-    url("/fonts/GoogleSans-Medium.woff") format("woff");
+  font-family: "History";
+  src: local("History Medium"), local("History-light"),
+    url("/fonts/GoogleSans-light.woff2") format("woff2"),
+    url("/fonts/GoogleSans-light.otf") format("otf");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Google Sans";
-  src: local("Google Sans Bold"), local("GoogleSans-Bold"),
-    url("/fonts/GoogleSans-Bold.woff2") format("woff2"),
-    url("/fonts/GoogleSans-Bold.woff") format("woff");
+  font-family: "History";
+  src: local("History Bold"), local("History-Bold"),
+    url("/fonts/History-Bold.woff2") format("woff2"),
+    url("/fonts/History-Bold.otf") format("otf");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -26,6 +26,7 @@ body {
   @apply bg-gray-900 text-white overflow-x-hidden;
   cursor: none;
 }
+
 html {
   scroll-behavior: smooth;
   -ms-overflow-style: scrollbar;
@@ -44,9 +45,11 @@ html {
   @media (min-width: 1536px) {
     font-size: 18px;
   }
+
   @media (min-width: 1800px) {
     font-size: 20px;
   }
+
   @media (min-width: 2000px) {
     font-size: 22px;
   }
@@ -55,9 +58,11 @@ html {
 ::-webkit-scrollbar {
   width: 0.375rem;
 }
+
 ::-webkit-scrollbar-track {
   background: rgba(94, 94, 94, 0.5);
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgb(170, 170, 170);
 }
@@ -90,12 +95,14 @@ input[type="checkbox"] {
     &:checked {
       + {
         .hamburger {
-          > div {
+          >div {
             transform: rotate(135deg);
+
             &:before {
               top: 0;
               transform: rotate(90deg);
             }
+
             &:after {
               top: 0;
               transform: rotate(90deg);
@@ -104,26 +111,30 @@ input[type="checkbox"] {
           }
         }
       }
+
       ~ {
         .menu {
           pointer-events: auto;
           visibility: visible !important;
           backdrop-filter: blur(0.625rem);
           -webkit-backdrop-filter: blur(0.625rem);
-          > div {
+
+          >div {
             transform: scale(1);
             transition-duration: 0.75s;
-            > div {
+
+            >div {
               opacity: 1;
               transition: opacity 0.4s ease 0.4s;
             }
           }
         }
       }
+
       &:hover {
         + {
           .hamburger {
-            > div {
+            >div {
               transform: rotate(225deg);
             }
           }
@@ -131,14 +142,16 @@ input[type="checkbox"] {
       }
     }
   }
+
   .hamburger {
     z-index: 1;
     backface-visibility: hidden;
 
-    > div {
+    >div {
       height: 0.125rem;
       transition: all 0.4s ease;
       -webkit-box-pack: center;
+
       &:before,
       &:after {
         content: "";
@@ -151,15 +164,18 @@ input[type="checkbox"] {
         background: inherit;
         transition: all 0.4s ease;
       }
+
       &:after {
         top: 0.5rem;
       }
     }
   }
+
   .menu {
     backface-visibility: hidden;
     outline: 0.0625rem solid transparent;
-    > div {
+
+    >div {
       width: 250vw;
       height: 250vw;
       transform: scale(0);
@@ -168,24 +184,24 @@ input[type="checkbox"] {
       transition: all 0.4s ease;
       backface-visibility: hidden;
       background: rgba(0, 0, 0, 0.5);
+
       @supports not (backdrop-filter: blur(0.625rem)) {
         background: rgba(0, 0, 0, 0.8);
       }
 
-      > div {
+      >div {
         max-width: 90vw;
         transition: opacity 0.4s ease;
       }
+
       ul {
         li {
           a {
-            background: linear-gradient(
-              90deg,
-              #ffffff 0%,
-              #ffffff 50%,
-              #6dd5ed 51%,
-              #2193b0 100%
-            );
+            background: linear-gradient(90deg,
+                #ffffff 0%,
+                #ffffff 50%,
+                #6dd5ed 51%,
+                #2193b0 100%);
             background-size: 200% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -206,10 +222,12 @@ input[type="checkbox"] {
   visibility: visible !important;
   backdrop-filter: blur(0.625rem);
   -webkit-backdrop-filter: blur(0.625rem);
-  > div {
+
+  >div {
     @apply flex gap-10 justify-center items-center h-screen z-50;
   }
 }
+
 .progress {
   height: 0.1875rem;
 
