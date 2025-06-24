@@ -388,7 +388,7 @@ const Hero = () => {
     };
   }, [isDragging, lastDragX, lastDragTime, currentRotation, isHovered]);
 
-  // Historical images - 30 curated historical images
+  // Historical images - 36 curated historical images
   const historicalImages = [
     "/history/1history.jpg",
     "/history/2history.jpg",
@@ -414,20 +414,19 @@ const Hero = () => {
     "/history/22history.jpg",
     "/history/23history.jpg",
     "/history/24history.jpg",
-    "/history/25history.jpg",
-    "/history/26history.jpg",
-    "/history/27history.jpg",
-    "/history/28history.jpg",
-    "/history/29history.jpg",
-    "/history/30history.jpg",
-    "/history/31history.jpg",
-    "/history/32history.jpg",
-    "/history/33history.jpg",
-    "/history/34history.jpg",
-    "/history/35history.jpg",
-    "/history/36history.jpg"
+    "/history/25history.jpg"
+    // "/history/26history.jpg",
+    // "/history/27history.jpg",
+    // "/history/28history.jpg",
+    // "/history/29history.jpg",
+    // "/history/30history.jpg",
+    // "/history/31history.jpg",
+    // "/history/32history.jpg",
+    // "/history/33history.jpg",
+    // "/history/34history.jpg",
+    // "/history/35history.jpg",
+    // "/history/36history.jpg"
   ];
-
 
   return (
     <section 
