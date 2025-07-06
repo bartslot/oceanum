@@ -5,12 +5,12 @@ const Header = ({ children }) => {
     <nav className="w-full fixed top-0 py-8 select-none z-50 bg-gradient-to-b from-gray-900 to-transparent">
       <div className="flex justify-between section-container">
         <a href="#home" className="link">
-          <Image
+          {/* <Image
             src="/logo/historyPortal.svg"
             alt="Logo HistoryPortal"
             width={98*2}
             height={65*2}
-          />
+          /> */}
         </a>
         <div className="outer-menu relative">
           <input

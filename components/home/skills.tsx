@@ -1,4 +1,4 @@
-import { MENULINKS, SKILLS } from "../../constants";
+import { MENULINKS } from "../../constants";
 import Image from "next/image";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { gsap, Linear } from "gsap";
@@ -31,14 +31,14 @@ const Skills = () => {
       ref={targetSection}
     >
       <div className="section-container py-12 flex flex-col justify-center">
-        <img
+        <img title="pattern"
           src="/pattern-r.svg"
           className="absolute right-0 -bottom-2/3 w-1/5 max-w-xs md:block hidden"
           loading="lazy"
           height={700}
           width={320}
         />
-        <img
+        <img title="pattern"
           src="/pattern-l.svg"
           className="absolute left-0 -bottom-1/3 w-1/12 max-w-xs md:block hidden"
           loading="lazy"

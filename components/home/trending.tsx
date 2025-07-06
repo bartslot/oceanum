@@ -28,35 +28,35 @@ const TrendingSection = () => {
       id: 1,
       title: "The Punic Wars",
       category: "Ancient History",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      image: "/history/popular1.jpg",
       description: "Three devastating wars between Rome and Carthage that shaped the ancient Mediterranean world"
     },
     {
       id: 2,
       title: "Abraham Lincoln",
       category: "American History",
-      image: "https://images.unsplash.com/photo-1509909756405-be0199881695?w=400&h=300&fit=crop",
+      image: "/history/popular2.jpg",
       description: "The 16th President who led America through Civil War and abolished slavery"
     },
     {
       id: 3,
       title: "Colosseum",
       category: "Roman Empire",
-      image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=400&h=300&fit=crop",
+      image: "/history/popular3.jpg",
       description: "Rome's iconic amphitheater where gladiators fought before 50,000 spectators"
     },
     {
       id: 4,
       title: "Gladiators",
       category: "Roman Culture",
-      image: "https://images.unsplash.com/photo-1594736797933-d0a9ba7a1db3?w=400&h=300&fit=crop",
+      image: "/history/popular4.jpg",
       description: "Professional fighters who battled in arenas for entertainment and honor in ancient Rome"
     },
     {
       id: 5,
       title: "Silk Road",
       category: "Trade Routes",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      image: "/history/popular5.jpg",
       description: "Ancient network of trade routes connecting East and West for over 1,400 years"
     }
   ];
@@ -93,7 +93,7 @@ const TrendingSection = () => {
         {/* Most Popular Section */}
         <div className="mb-20">
           <div className="flex items-center justify-between mb-12">
-            <h2 className="text-4xl font-light text-blue-200 tracking-wide">
+            <h2 className="text-4xl text-secondary tracking-wide">
               Most popular
             </h2>
 
@@ -109,52 +109,49 @@ const TrendingSection = () => {
           </div>
 
           {/* Carousel Container */}
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden -mt-4 -ml-4">
             <div
               ref={carouselRef}
-              className="flex gap-6 transition-transform duration-500 ease-out"
+              className="flex gap-6 transition-transform duration-500 ease-out p-4"
             >
               {trendingItems.map((item, index) => (
                 <div
                   key={item.id}
-                  className="flex-shrink-0 w-64 group cursor-pointer"
+                  className="flex-shrink-0 w-64 pl-1 hover:scale-110 duration-500 ease-out transform-gpu transition-transform cursor-pointer"
                 >
                   {/* Card */}
-                  <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 backdrop-blur-sm border-3 border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20">
+                  <div className="relative bg-slate-800/50 backdrop-blur-sm border-3 border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20">
+                    <div className="absolute z-2 bottom-10 -left-2">
 
-                    {/* Image */}
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
+                      <span className="text-9xl font-bold text-center text-black text-outline-white">
+                        {index + 1}
+                      </span>
 
-                      {/* Number Badge */}
-                      <div className="absolute top-4 left-4">
-                        <div className="w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-sm border-3 border-white/20 flex items-center justify-center">
-                          <span className="text-2xl font-bold text-white">
-                            {index + 1}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Category Badge */}
-                      <div className="absolute top-4 right-4">
-                        <div className="px-3 py-1 rounded-full bg-blue-600/80 backdrop-blur-sm text-xs font-semibold text-white border border-blue-400/50">
-                          {item.category.split(' ')[0].toUpperCase()}
-                        </div>
-                      </div>
                     </div>
+                    <div className="rounded-xl overflow-hidden border-4 border-black">
+                      {/* Image */}
+                      <div className="top-0 w-full px-4 py-3 bg-black rounded-br-2xl">
+                        <h3 className="text-md font-semibold text-white mb-2 group-hover:text-blue-300 transition-colors">
+                          {item.title}
+                        </h3>
+                        {/* Category Badge */}
+                        <div className="absolute top-4 right-4">
+                          <div className="px-3 py-1 rounded-full bg-blue-600/80 backdrop-blur-sm text-xs font-light text-white border border-white">
+                            {item.category.split(' ')[0].toUpperCase()}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="h-full overflow-hidden z-1">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full max-h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        {/* Content */}
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-slate-300 text-sm leading-relaxed">
-                        {item.description}
-                      </p>
+                      </div>
+
+
                     </div>
                   </div>
                 </div>
@@ -165,7 +162,7 @@ const TrendingSection = () => {
 
         {/* Built for Better History Teaching Section */}
         <div className="mb-20">
-          <h2 className="text-4xl font-light text-blue-200 tracking-wide mb-12">
+          <h2 className="text-4xl font-bold text-blue-200 tracking-wide mb-12">
             Built for Better History Teaching
           </h2>
 

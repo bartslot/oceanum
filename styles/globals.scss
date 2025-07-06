@@ -4,10 +4,20 @@
 
 @font-face {
   font-family: "History";
-  src: local("History Medium"), local("History-light"),
-    url("/fonts/GoogleSans-light.woff2") format("woff2"),
-    url("/fonts/GoogleSans-light.otf") format("otf");
-  font-weight: 500;
+  src: local("History light"), local("History-Light"),
+    url("/fonts/History-Light.woff2") format("woff2"),
+    url("/fonts/History-Light.otf") format("otf");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "History";
+  src: local("History Semibold"), local("History-SemiBold"),
+    url("/fonts/History-Semibold.woff2") format("woff2"),
+    url("/fonts/History-Semibold.otf") format("otf");
+  font-weight: medium;
   font-style: normal;
   font-display: swap;
 }
@@ -22,9 +32,24 @@
   font-display: swap;
 }
 
+font-history {
+  font-family: "History";
+}
+
 body {
   @apply bg-gray-900 text-white overflow-x-hidden;
   cursor: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-history font-bold;
+}
+
+h3 {
+  @apply font-semibold;
 }
 
 html {
@@ -248,7 +273,7 @@ input[type="checkbox"] {
 
 .app {
   margin: auto;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   font-weight: 300;
   text-align: center;
 }
@@ -260,4 +285,17 @@ input[type="checkbox"] {
 
 .faded {
   color: rgba(0, 0, 0, .5);
+}
+.text-outline-white {
+  -webkit-text-stroke: 3px white;
+  text-stroke: 3px white;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+}
+
+.text-outline-thin {
+  -webkit-text-stroke: 1px black;
+  text-stroke: 1px white;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
 }

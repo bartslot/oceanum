@@ -1,3 +1,4 @@
+import { HISTORYIMG } from "../../constants";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { gsap, Linear } from "gsap";
 import Button from "../common/button";
@@ -463,7 +464,7 @@ const Hero = () => {
       </div>
 
       {/* Circular Wheel Container - Bigger and positioned at bottom center */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 z-20">
         <div
           ref={wheelRef}
           className="relative wheel-container"
@@ -477,7 +478,7 @@ const Hero = () => {
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
-          {historicalImages.map((image, index) => {
+          {HISTORYIMG.map((image, index) => {
             // Calculate position for perfect circle
             const totalImages = historicalImages.length;
             const angle = (index * 360) / totalImages;
@@ -496,8 +497,8 @@ const Hero = () => {
                 key={index}
                 className="wheel-card absolute rounded-2xl overflow-hidden transition-all duration-500 ease-out"
                 style={{
-                  width: '130px', // Slightly increased from 120px
-                  height: '130px', // Slightly increased from 120px
+                  width: '130px',
+                  height: '130px',
                   left: `calc(50% + ${x}px - 65px)`, // Adjusted for new size (130/2 = 65)
                   top: `calc(50% + ${y}px - 65px)`, // Adjusted for new size (130/2 = 65)
                   transform: `rotate(${imageRotation}deg)`,
@@ -510,7 +511,7 @@ const Hero = () => {
                 onMouseLeave={() => handleCardHover(index, false)}
               >
                 <img
-                  src={image}
+                  src={`/history/${image}`}
                   alt={`Historical image ${index + 1}`}
                   className="w-full h-full object-cover transition-all duration-300"
                   draggable={false} // Prevent image dragging
@@ -553,12 +554,12 @@ const Hero = () => {
       ></div>
 
       {/* Bottom text section - positioned above the wheel */}
-      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto mt-auto mb-32">
+      <div className="relative z-50 text-center px-4 max-w-4xl mx-auto mt-auto mb-20">
         <div className="hero-description mb-8">
-          <h3 className="text-2xl font-semibold text-white mb-6" style={{ fontSize: '30pt', fontWeight: '600' }}>
+          <h3 className="text-3xl font-bold text-white mb-6">
             History is taught here
           </h3>
-          <p className="max-w-2xl mx-auto leading-relaxed text-bluegray text-md" style={{ fontSize: '1em' }}>
+          <p className="max-w-2xl mx-auto leading-relaxed text-bluelight text-md">
             Our platform is currently in beta and invite-only.<br />
             Request an invite now to receive a link to<br />
             create your account.

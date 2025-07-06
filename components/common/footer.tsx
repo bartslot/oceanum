@@ -6,7 +6,6 @@ const Footer = () => {
   return (
     <footer
       className="w-full relative select-none bg-cover"
-      id={MENULINKS[4].ref}
     >
       <img
         src="/footer-curve.svg"
